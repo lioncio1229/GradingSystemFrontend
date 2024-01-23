@@ -3,6 +3,7 @@ import AuthLayout from "layout/AuthLayout";
 import MainPage from "pages";
 import AdminSignup from "pages/admin-auth/AdminSignup";
 import AdminSignin from "pages/admin-auth/AdminSignin";
+import AdministrationLayout from "layout/AdministrationLayout";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
                 element: <AdminSignin />
             }
         ]
+    },
+    {
+        path: "/admin/portal",
+        element: <AdministrationLayout />
     }
 ]);
 
