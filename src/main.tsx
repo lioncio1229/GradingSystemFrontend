@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import router from 'pages'
+import router from 'router'
 import { Provider } from 'react-redux'
 import { store } from 'store'
 import { ThemeProvider } from '@mui/material/styles';

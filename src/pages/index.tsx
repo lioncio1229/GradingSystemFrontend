@@ -1,11 +1,32 @@
-import { createBrowserRouter } from "react-router-dom";
-import AuthLayout from "layout/AuthLayout";
+import { Stack, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <AuthLayout />
-    }
-]);
+export default function MainPage() {
+    const navigate = useNavigate();
 
-export default router;
+  return (
+    <Stack direction="row" justifyContent="center" spacing={1} mt={10}>
+      <Button
+        variant="contained"
+        size="large"
+        sx={{
+          minWidth: 400,
+          fontSize: 24,
+        }}
+        onClick={() => navigate("/admin/signup")}
+      >
+        Teacher / Admin
+      </Button>
+      <Button
+        variant="contained"
+        size="large"
+        sx={{
+          minWidth: 400,
+          fontSize: 24
+        }}
+      >
+        Student
+      </Button>
+    </Stack>
+  );
+}
