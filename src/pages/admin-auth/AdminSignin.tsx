@@ -1,6 +1,15 @@
 import React, { useState, useMemo, ChangeEvent } from "react";
-import { Avatar, TextField, Link, Grid, Box, Typography } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import {
+  Avatar,
+  TextField,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  IconButton,
+  Container,
+} from "@mui/material";
+import { LockOutlined, ArrowBack } from "@mui/icons-material";
 import { useLoginMutation, LoginModel } from "services/adminAuthServices";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -24,7 +33,7 @@ export default function AdminSignin() {
     event.preventDefault();
     const data = new FormData(event.currentTarget as HTMLFormElement);
 
-    const model : LoginModel = {
+    const model: LoginModel = {
       username: data.get("email") ?? "",
       password: data.get("password") ?? "",
     };
@@ -67,65 +76,79 @@ export default function AdminSignin() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        mt: 3,
-      }}
-    >
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Login
-      </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={handleEmailInputChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="new-password"
-              onChange={handlePasswordInputChange}
-            />
-          </Grid>
-        </Grid>
-        <LoadingButton
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          disabled={!isEnabled}
-          loading={isButtonLoading}
-          size="large"
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 3,
+          position: "relative",
+        }}
+      >
+        <IconButton
+          onClick={() => navigate("/")}
+          sx={{
+            position: "absolute",
+            left: 0,
+            top: 30,
+          }}
         >
+          <ArrowBack />
+        </IconButton>
+
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlined />
+        </Avatar>
+        <Typography component="h1" variant="h5">
           Login
-        </LoadingButton>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link href="/admin/signup" variant="body2">
-              Don&apos;t have an account? Signup
-            </Link>
+        </Typography>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={handleEmailInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                onChange={handlePasswordInputChange}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+          <LoadingButton
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={!isEnabled}
+            loading={isButtonLoading}
+            size="large"
+          >
+            Login
+          </LoadingButton>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/admin/signup" variant="body2">
+                Don&apos;t have an account? Signup
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
-    </Box>
+    </Container>
   );
 }

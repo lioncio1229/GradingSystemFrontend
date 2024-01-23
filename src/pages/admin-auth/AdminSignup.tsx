@@ -7,15 +7,16 @@ import {
   Box,
   Typography,
   Container,
+  IconButton,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { LockOutlined, ArrowBack } from "@mui/icons-material";
 
 import { useRegisterMutation, RegisterModel } from "services/adminAuthServices";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
 export default function AdminSignup() {
-    const [register] = useRegisterMutation();
+  const [register] = useRegisterMutation();
   const navigate = useNavigate();
   const [isButtonLoading, setButtonLoading] = useState(false);
 
@@ -56,7 +57,7 @@ export default function AdminSignup() {
     const lastName = data.get("lastname")?.toString().trim() ?? "";
     const password = data.get("password");
 
-    const model : RegisterModel = {
+    const model: RegisterModel = {
       email,
       username,
       firstName,
@@ -65,15 +66,17 @@ export default function AdminSignup() {
     };
 
     setButtonLoading(true);
-    register(model).unwrap().then(resp => {
-      localStorage.setItem("token", resp.token);
-      setButtonLoading(false);
-      // navigate("/main");
-      console.log("resp -> ", resp);
-    })
-    .catch(err => {
-      setButtonLoading(false);
-    });
+    register(model)
+      .unwrap()
+      .then((resp) => {
+        localStorage.setItem("token", resp.token);
+        setButtonLoading(false);
+        // navigate("/main");
+        console.log("resp -> ", resp);
+      })
+      .catch((err) => {
+        setButtonLoading(false);
+      });
   };
 
   const handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +97,9 @@ export default function AdminSignup() {
     setErrorState({ ...errorState, emailHasError: hasError });
   };
 
-  const handleUsernameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     const username = value.trim();
     let errorValue = "";
@@ -103,17 +108,18 @@ export default function AdminSignup() {
     if (username === "") {
       errorValue = "Please add username";
       hasError = true;
-    }
-    else if(!/^(?!.*\.\.)(?!.*\.$)[^\W_]{3,16}$/.test(username)){
-        errorValue = "Invalid username";
-        hasError = true;
+    } else if (!/^(?!.*\.\.)(?!.*\.$)[^\W_]{3,16}$/.test(username)) {
+      errorValue = "Invalid username";
+      hasError = true;
     }
 
     setError({ ...error, userNameError: errorValue });
     setErrorState({ ...errorState, userNameHasError: hasError });
   };
 
-  const handleFirstNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFirstNameInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     const firstName = value.trim();
     let errorValue = "";
@@ -128,7 +134,9 @@ export default function AdminSignup() {
     setErrorState({ ...errorState, firstNameHasError: hasError });
   };
 
-  const handleLastNameInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const handleLastNameInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = e.target;
     const lastName = value.trim();
     let errorValue = "";
@@ -143,7 +151,9 @@ export default function AdminSignup() {
     setErrorState({ ...errorState, lastNameHasError: hasError });
   };
 
-  const handlePasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value: password } = e.target;
 
     let errorValue = "";
@@ -159,7 +169,9 @@ export default function AdminSignup() {
     setPassword(password);
   };
 
-  const handleConfirmPasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value: confirmPassword } = e.target;
 
     let errorValue = "";
@@ -198,10 +210,22 @@ export default function AdminSignup() {
           flexDirection: "column",
           alignItems: "center",
           mb: 3,
+          position: "relative",
         }}
       >
+        <IconButton
+          onClick={() => navigate("/")}
+          sx={{
+            position: "absolute",
+            left: 0,
+            top: 30,
+          }}
+        >
+          <ArrowBack />
+        </IconButton>
+
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Register
