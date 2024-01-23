@@ -1,13 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from 'App.tsx'
+import router from 'pages'
 import { Provider } from 'react-redux'
 import { store } from 'store'
+import { ThemeProvider } from '@mui/material/styles';
+import theme from 'theme'
+import CssBaseline from '@mui/material/CssBaseline';
+import { RouterProvider } from "react-router-dom";
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 )
