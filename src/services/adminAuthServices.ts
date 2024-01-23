@@ -9,8 +9,8 @@ export type RegisterModel = {
 }
 
 export type LoginModel = {
-    username: string,
-    password: string,   
+    username: FormDataEntryValue,
+    password: FormDataEntryValue,   
 }
 
 const authManagementApi = emptySplitApi.injectEndpoints({

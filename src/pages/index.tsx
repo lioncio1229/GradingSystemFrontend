@@ -13,7 +13,7 @@ export default function MainPage() {
           minWidth: 400,
           fontSize: 24,
         }}
-        onClick={() => navigate("/admin/signup")}
+        onClick={() => navigate("/admin/signin")}
       >
         Teacher / Admin
       </Button>

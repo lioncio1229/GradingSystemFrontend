@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthLayout from "layout/AuthLayout";
 import MainPage from "pages";
-import AdminSignup from "pages/AdminAuth/AdminSignup";
+import AdminSignup from "pages/admin-auth/AdminSignup";
+import AdminSignin from "pages/admin-auth/AdminSignin";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
             {
                 path: "/admin/signup",
                 element: <AdminSignup />
+            },
+            {
+                path: "/admin/signin",
+                element: <AdminSignin />
             }
         ]
     }

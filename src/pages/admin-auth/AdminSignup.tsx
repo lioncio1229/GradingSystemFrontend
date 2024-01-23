@@ -197,6 +197,7 @@ export default function AdminSignup() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          mb: 3,
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
@@ -301,8 +302,8 @@ export default function AdminSignup() {
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Login in
+              <Link href="/admin/signin" variant="body2">
+                Already have an account? Sigin in
               </Link>
             </Grid>
           </Grid>
