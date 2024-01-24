@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "/admin/portal",
+        path: "/admin",
         element: <AdministrationLayout />
     }
 ]);

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -17,6 +17,7 @@ import { Outlet } from "react-router-dom";
 import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { School, MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
 import Logo from "assets/logo.png";
+import { useLocation } from "react-router-dom";
 
 const drawerWidth: number = 240;
 
@@ -24,26 +25,37 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const mainList = [
+type ListItem = {
+  icon: JSX.Element,
+  label: string,
+  path: string,
+}
+
+const mainList : ListItem[] = [
   {
     icon: <School />,
-    label: "Strands"
+    label: "Strands",
+    path: "/strands",
   },
   {
     icon: <Subject />,
     label: "Subjects",
+    path: "/subjects",
   },
   {
     icon: <People />,
-    label: "Students"
+    label: "Students",
+    path: "/students"
   },
   {
     icon: <SupervisorAccount />,
     label: "Teachers",
+    path: "/teachers",
   },
   {
     icon: <MenuBook/>,
-    label: "Lectures"
+    label: "Lectures",
+    path: "/lectures",
   },
 ];
 
@@ -51,6 +63,7 @@ const otherList = [
   {
     icon: <Groups />,
     label: "Manage Users",
+    path: "/users"
   }
 ];
 
@@ -99,10 +112,19 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function AdministrationLayout() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [selectedItem, setSelectedItem] = useState<ListItem>(mainList[0]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const location = useLocation();
+
+  console.log("location -> ", location);
+
+  const handleItemClick = (item: ListItem) => {
+    setSelectedItem(item);
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -131,7 +153,7 @@ export default function AdministrationLayout() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            {selectedItem.label}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -172,23 +194,23 @@ export default function AdministrationLayout() {
         <List component="nav">
           {
             mainList.map(item => (
-              <ListItemButton>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
+              <ListItemButton onClick={() => handleItemClick(item)} selected={item.path === selectedItem.path}>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
             ))
           }
           <Divider sx={{ my: 1 }} />
           {
             otherList.map(item => (
-              <ListItemButton>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItemButton>
+              <ListItemButton onClick={() => handleItemClick(item)}>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
             ))
           }
         </List>
