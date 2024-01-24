@@ -13,14 +13,46 @@ import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
 import { Outlet } from "react-router-dom";
+import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { School, MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
+import Logo from "assets/logo.png";
 
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
+
+const mainList = [
+  {
+    icon: <School />,
+    label: "Strands"
+  },
+  {
+    icon: <Subject />,
+    label: "Subjects",
+  },
+  {
+    icon: <People />,
+    label: "Students"
+  },
+  {
+    icon: <SupervisorAccount />,
+    label: "Teachers",
+  },
+  {
+    icon: <MenuBook/>,
+    label: "Lectures"
+  },
+];
+
+const otherList = [
+  {
+    icon: <Groups />,
+    label: "Manage Users",
+  }
+];
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -113,19 +145,52 @@ export default function AdministrationLayout() {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "center",
             px: [1],
+            py: [1],
+            position: "relative",
           }}
         >
-          <IconButton onClick={toggleDrawer}>
+          <Stack alignItems="center">
+            <Typography variant="caption" color="primary">Administrator</Typography>
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <Box component="img" src={Logo} sx={{width: 40, height: "auto"}} />
+              <Typography fontSize={24} color="primary" fontWeight="600">PHILTECH</Typography>
+            </Stack>
+          </Stack>
+          <IconButton
+            onClick={toggleDrawer}
+            sx={{
+              position: "absolute",
+              right: 0,
+            }}
+          >
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
+          {
+            mainList.map(item => (
+              <ListItemButton>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+            ))
+          }
           <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
+          {
+            otherList.map(item => (
+              <ListItemButton>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+            ))
+          }
         </List>
       </Drawer>
       <Box
