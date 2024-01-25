@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Stack, SelectChangeEvent } from "@mui/material"
 import SelectWrapper from "components/SelectWrapper";
-import { useSelector } from "react-redux";
-import { strandsSelector, semestersSelector, yearLevelsSelector } from "../slice";
+import useAcademic from "../hooks/useAcademic";
 
 export type Filter = {
     semester: string,
@@ -21,9 +20,7 @@ export default function SearchFilter({ filter : _filter = {
     yearLevel: "",
 }, onChange } : SearchFilterProps)
 {
-    const strands = useSelector(strandsSelector);
-    const semesters = useSelector(semestersSelector);
-    const yearLevels = useSelector(yearLevelsSelector);
+    const { strands, semesters, yearLevels } = useAcademic();
 
     const [filter, setFilter] = useState<Filter | null>(null);
 

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import DataTable, { Column } from "components/DataTable";
 import { useGetAllSubjectsQuery } from "services/subjectServices";
-import { Stack, IconButton, TextField } from "@mui/material";
+import { Stack, IconButton, TextField, SelectChangeEvent } from "@mui/material";
 import { Subject } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import SelectWrapper from "components/SelectWrapper";
-import { useGetStrandsQuery, useGetSemestersQuery, useGetYearLevelsQuery } from "services/academicLevelServices";
+import useAcademic from "../hooks/useAcademic";
+import { SubjectAddUpdateSchema } from "services/types";
 
 export default function Subjects() {
   const [filter, setFilter] = useState<Filter>({
@@ -16,15 +17,13 @@ export default function Subjects() {
     yearLevel: "g11",
   });
 
-  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<SubjectAddUpdateSchema | null>(null);
 
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
-
+  
+  const { strands, semesters, yearLevels } = useAcademic();
   const { data } = useGetAllSubjectsQuery(filter);
-  const { data: strands = [] } = useGetStrandsQuery(null);
-  const { data: semesters = [] } = useGetSemestersQuery(null);
-  const { data: yearLevels = [] } = useGetYearLevelsQuery(null);
 
   const columns: Column<Subject>[] = [
     {
@@ -63,7 +62,19 @@ export default function Subjects() {
   ];
 
   const handleUpdateClick = (subject: Subject) => {
-    setSelectedSubject({...subject});
+    
+    const subjectToUpdate : SubjectAddUpdateSchema = {
+      userId: subject.faculty.id,
+      name: subject.name,
+      room: subject.room,
+      code: subject.code,
+      type: subject.type,
+      strandCode: subject.strand.code,
+      yearLevelKey: subject.yearLevel.key,
+      semesterKey: subject.semester.key
+    };
+
+    setSelectedSubject(subjectToUpdate);
     setOpenUpdateModal(true);
   };
 
@@ -75,7 +86,14 @@ export default function Subjects() {
     setSelectedSubject({
       ...selectedSubject,
       [event.target.name]: event.target.value,
-    } as Subject);
+    } as SubjectAddUpdateSchema);
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setSelectedSubject({
+      ...selectedSubject,
+      [event.target.name]: event.target.value,
+    } as SubjectAddUpdateSchema);
   };
 
   return (
@@ -110,6 +128,27 @@ export default function Subjects() {
               fullWidth
               value={selectedSubject.type}
               onChange={handleTextChange}
+            />
+            <SelectWrapper 
+              name="strandCode"
+              items={strands}
+              label="Strand"
+              onChange={handleSelectChange}
+              value={selectedSubject.strandCode}
+            />
+            <SelectWrapper 
+              name="semesterKey"
+              items={semesters}
+              label="Semester"
+              onChange={handleSelectChange}
+              value={selectedSubject.semesterKey}
+            />
+            <SelectWrapper 
+              name="yearLevelKey"
+              items={yearLevels}
+              label="Year Level"
+              onChange={handleSelectChange}
+              value={selectedSubject.yearLevelKey}
             />
           </Stack>
         )}

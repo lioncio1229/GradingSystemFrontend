@@ -13,6 +13,7 @@ export type LoginModel = {
 }
 
 export type FacultyType = {
+    id: string,
     username: string,
     firstName: string,
     lastName: string   
@@ -49,4 +50,15 @@ export type SearchFilter = {
     strand: string,
     yearLevel: string,
     semester: string,
+}
+
+export type SubjectAddUpdateSchema = {
+    name: string,
+    room: string,
+    code: string,
+    type: string,
+    userId: string,
+    strandCode: string,
+    yearLevelKey: string,
+    semesterKey: string,
 }

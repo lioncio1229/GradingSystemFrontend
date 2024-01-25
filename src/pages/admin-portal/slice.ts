@@ -4,13 +4,13 @@ import { Strand, Semester, YearLevel } from "services/types";
 import { Item } from "components/SelectWrapper";
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-interface AdminPortal {
+export interface Academic {
     strands: Item[],
     semesters: Item[],
     yearLevels: Item[],
 }
 
-const initialState : AdminPortal = {
+const initialState : Academic = {
     strands: [],
     semesters: [],
     yearLevels: [],
