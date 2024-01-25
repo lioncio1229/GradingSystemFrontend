@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import DataTable, { Column } from "components/DataTable";
-import { useGetAllSubjectsQuery, useAddSubjectMutation, useUpdateSubjectMutation } from "services/subjectServices";
-import { Stack, IconButton, TextField, SelectChangeEvent, Toolbar, Button } from "@mui/material";
-import { Subject, FacultyType, SubjectAddUpdateSchema } from "services/types";
+import { useGetAllSubjectsQuery, useAddSubjectMutation, useUpdateSubjectMutation, useDeleteSubjectMutation } from "services/subjectServices";
+import { Stack, IconButton, TextField, SelectChangeEvent, Toolbar, Button,  } from "@mui/material";
+import { Subject, FacultyType, SubjectAddUpdateSchema as SubjectUpsertSchema } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
@@ -10,6 +10,7 @@ import SelectWrapper from "components/SelectWrapper";
 import useAcademic from "../hooks/useAcademic";
 import { useGetFacultiesQuery } from "services/facultyServices";
 import { Item } from "components/SelectWrapper";
+import DeleteModal from "components/DeleteModal";
 
 enum Upsert { Add, Update }
 
@@ -20,16 +21,19 @@ export default function Subjects() {
     yearLevel: "g11",
   });
 
-  const [targetSubject, setTargetSubject] = useState<SubjectAddUpdateSchema | null>(null);
+  const [targetSubject, setTargetSubject] = useState<SubjectUpsertSchema | null>(null);
+
   const [openUpsertModal, setOpenUpsertModal] = useState<boolean>(false);
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   
   const { strands, semesters, yearLevels } = useAcademic();
   const { data, refetch } = useGetAllSubjectsQuery(filter);
   const { data: faculties = [] } = useGetFacultiesQuery(null);
+
   const [addSubject] = useAddSubjectMutation();
   const [updateSubject] = useUpdateSubjectMutation();
+  const [deleteSubject] = useDeleteSubjectMutation();
 
   const facultyList : Item[] = useMemo(() => 
     faculties.map((o : FacultyType) => ({
@@ -67,7 +71,7 @@ export default function Subjects() {
           >
             <Edit />
           </IconButton>
-          <IconButton color="error">
+          <IconButton color="error" onClick={() => handleDeleteButtonClick(subject)}>
             <Delete />
           </IconButton>
         </>
@@ -76,7 +80,7 @@ export default function Subjects() {
   ];
 
   const handleAddButtonClick = () => {
-    const subjectToAdd : SubjectAddUpdateSchema = {
+    const subjectToAdd : SubjectUpsertSchema = {
       id: "",
       userId: "",
       name: "",
@@ -93,9 +97,8 @@ export default function Subjects() {
     setOpenUpsertModal(true);
   }
 
-  const handleUpdateButtonClick = (subject: Subject) => {
-    
-    const subjectToUpdate : SubjectAddUpdateSchema = {
+  const mapSubjectToScheme = (subject : Subject) : SubjectUpsertSchema => {
+    return {
       id: subject.id,
       userId: subject.faculty.id,
       name: subject.name,
@@ -105,12 +108,21 @@ export default function Subjects() {
       strandCode: subject.strand.code,
       yearLevelKey: subject.yearLevel.key,
       semesterKey: subject.semester.key
-    };
+    } as SubjectUpsertSchema;
+  }
 
-    setUpsertType(Upsert.Update);
+  const handleUpdateButtonClick = (subject: Subject) => {
+    const subjectToUpdate = mapSubjectToScheme(subject);
     setTargetSubject(subjectToUpdate);
+    setUpsertType(Upsert.Update);
     setOpenUpsertModal(true);
   };
+
+  const handleDeleteButtonClick = (subject: Subject) => {
+    const subjectToDelete = mapSubjectToScheme(subject);
+    setTargetSubject(subjectToDelete);
+    setOpenDeleteModal(true);
+  }
 
   const handleFilterChange = (updatedFilter: Filter) => {
     setFilter(updatedFilter);
@@ -121,14 +133,14 @@ export default function Subjects() {
     setTargetSubject({
       ...targetSubject,
       [event.target.name]: event.target.value,
-    } as SubjectAddUpdateSchema);
+    } as SubjectUpsertSchema);
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setTargetSubject({
       ...targetSubject,
       [event.target.name]: event.target.value,
-    } as SubjectAddUpdateSchema);
+    } as SubjectUpsertSchema);
   };
 
   const handleConfirm = () => {
@@ -144,6 +156,16 @@ export default function Subjects() {
     action.unwrap().then(resp => {
       refetch();
       setOpenUpsertModal(false);
+      console.log("resp -> ", resp);
+    });
+  }
+
+  const handleSubjectDelete = () => {
+    if(targetSubject == null) return;
+
+    deleteSubject({id: targetSubject.id}).unwrap().then(resp => {
+      refetch();
+      setOpenDeleteModal(false);
       console.log("resp -> ", resp);
     });
   }
@@ -213,6 +235,8 @@ export default function Subjects() {
           </Stack>
         )}
       </CustomModal>
+
+      <DeleteModal open={openDeleteModal} onConfirm={handleSubjectDelete} onClose={() => setOpenDeleteModal(false)} />
 
       <Stack spacing={1}>
         <SearchFilter filter={filter} onChange={handleFilterChange} />

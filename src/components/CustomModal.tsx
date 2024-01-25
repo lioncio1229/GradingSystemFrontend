@@ -1,12 +1,21 @@
-import { Box, Button, Modal, Card, CardContent, CardActions, CardHeader } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  Divider,
+} from "@mui/material";
 
 type CustomDialogProps = {
-    title: string,
-    open: boolean,
-    onConfirm?: React.MouseEventHandler<HTMLButtonElement>,
-    onClose?: React.MouseEventHandler<HTMLButtonElement>,
-    children?: JSX.Element | JSX.Element[] | null,
-}
+  title?: string | JSX.Element | JSX.Element[];
+  open: boolean;
+  onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
+  onClose?: React.MouseEventHandler<HTMLButtonElement>;
+  children?: JSX.Element | JSX.Element[] | null;
+};
 
 export default function CustomModal({
   open,
@@ -14,8 +23,7 @@ export default function CustomModal({
   onClose,
   onConfirm,
   children,
-} : CustomDialogProps) {
-
+}: CustomDialogProps) {
   return (
     <Modal
       open={open}
@@ -32,17 +40,25 @@ export default function CustomModal({
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Card sx={{ minWidth: 300, maxHeight: "95vh", overflowY: "scroll" }}>
-            <CardHeader 
-              title={title}
-            />
-            <CardContent>
-                {children}
-            </CardContent>
-            <CardActions sx={{justifyContent: "flex-end"}}>
-                <Button variant="contained" onClick={onConfirm}>Confirm</Button>
-                <Button variant="contained" onClick={onClose}>Close</Button>
-            </CardActions>
+        <Card
+          sx={{ minWidth: 300, maxHeight: "95vh", overflowY: "auto" }}
+        >
+          {title && 
+          <>
+            <CardHeader title={title} />
+            <Divider />
+          </>
+          }
+          <CardContent>{children}</CardContent>
+          <Divider />
+          <CardActions sx={{ justifyContent: "flex-end" }}>
+            <Button variant="contained" onClick={onConfirm}>
+              Confirm
+            </Button>
+            <Button variant="contained" onClick={onClose}>
+              Close
+            </Button>
+          </CardActions>
         </Card>
       </Box>
     </Modal>

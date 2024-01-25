@@ -23,6 +23,12 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
         body: model,
       }),
     }),
+    deleteSubject: builder.mutation({
+      query: (model: { id: string }) => ({
+        url: `/api/v1/subjects/${model.id}`,
+        method: "DELETE"
+      })
+    })
   }),
 });
 
@@ -30,4 +36,5 @@ export const {
   useGetAllSubjectsQuery,
   useAddSubjectMutation,
   useUpdateSubjectMutation,
+  useDeleteSubjectMutation,
 } = subjectManagementApi;
