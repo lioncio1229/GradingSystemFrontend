@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
 import Logo from "assets/logo.png";
@@ -35,12 +35,12 @@ const mainList : ListItem[] = [
   {
     icon: <Subject />,
     label: "Subjects",
-    path: "/subjects",
+    path: "/admin/portal",
   },
   {
     icon: <People />,
     label: "Students",
-    path: "/students"
+    path: "/admin/portal/students"
   },
   {
     icon: <SupervisorAccount />,
@@ -107,6 +107,8 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function AdministrationLayout() {
+
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState<ListItem>(mainList[0]);
   const toggleDrawer = () => {
@@ -119,6 +121,7 @@ export default function AdministrationLayout() {
 
   const handleItemClick = (item: ListItem) => {
     setSelectedItem(item);
+    navigate(item.path);
   }
 
   return (

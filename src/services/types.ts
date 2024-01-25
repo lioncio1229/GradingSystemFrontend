@@ -52,7 +52,7 @@ export type SearchFilter = {
     semester: string,
 }
 
-export type SubjectAddUpdateSchema = {
+export type SubjectUpsertSchema = {
     id: string,
     name: string,
     room: string,
@@ -63,3 +63,44 @@ export type SubjectAddUpdateSchema = {
     yearLevelKey: string,
     semesterKey: string,
 }
+
+export interface Student {
+    id: string,
+    email: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+    sufix: string;
+    birthdate: string;
+    nationality: string;
+    mobileNumber: string;
+    facebookUrl: string;
+    lrn: string;
+    gender: string;
+    status: string;
+    studentType: string;
+    strand: Strand,
+    yearLevel: YearLevel,
+    semester: Semester,
+}
+
+export interface StudentUpsertSchema {
+    id: string,
+    email: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+    sufix: string;
+    birthdate: string;
+    nationality: string;
+    mobileNumber: string;
+    facebookUrl: string;
+    lrn: string;
+    gender: string;
+    status: string;
+    studentType: string;
+    strandCode: string;
+    yearLevelKey: string;
+    semesterKey: string;
+}
+  

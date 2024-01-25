@@ -1,6 +1,6 @@
 import { SearchFilter } from "./types";
 import { emptySplitApi } from ".";
-import { SubjectAddUpdateSchema } from "./types";
+import { SubjectUpsertSchema } from "./types";
 
 const subjectManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
@@ -10,14 +10,14 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
         `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
     addSubject: builder.mutation({
-      query: (model: SubjectAddUpdateSchema) => ({
+      query: (model: SubjectUpsertSchema) => ({
         url: `/api/v1/subjects`,
         method: "POST",
         body: model,
       }),
     }),
     updateSubject: builder.mutation({
-      query: (model: SubjectAddUpdateSchema) => ({
+      query: (model: SubjectUpsertSchema) => ({
         url: `/api/v1/subjects/${model.id}`,
         method: "PUT",
         body: model,

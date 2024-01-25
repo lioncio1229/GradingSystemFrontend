@@ -4,8 +4,9 @@ import MainPage from "pages";
 import AdminSignup from "pages/admin-auth/AdminSignup";
 import AdminSignin from "pages/admin-auth/AdminSignin";
 import AdministrationLayout from "layout/AdministrationLayout";
-import Subjects from "pages/admin-portal/subjects";
 import AdminPortal from "pages/admin-portal";
+import Subjects from "pages/admin-portal/subjects";
+import Students from "pages/admin-portal/students";
 
 const router = createBrowserRouter([
     {
@@ -37,7 +38,11 @@ const router = createBrowserRouter([
                     {
                         path: "",
                         element: <Subjects />
-                    }
+                    },
+                    {
+                        path: "students",
+                        element: <Students />
+                    },
                 ]
             }
         ]
