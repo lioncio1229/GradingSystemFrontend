@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -26,7 +26,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 type ListItem = {
-  icon: JSX.Element,
+  icon: JSX.Element | null,
   label: string,
   path: string,
 }
@@ -110,19 +110,28 @@ export default function AdministrationLayout() {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
-  const [selectedItem, setSelectedItem] = useState<ListItem>(mainList[0]);
+  const [selectedItem, setSelectedItem] = useState<ListItem>({
+    label: "",
+    icon: null,
+    path: "",
+  });
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const location = useLocation();
 
-  console.log("location -> ", location);
-
   const handleItemClick = (item: ListItem) => {
-    setSelectedItem(item);
     navigate(item.path);
   }
+
+  useEffect(() => {
+    const item : ListItem | undefined = mainList.find(list => list.path === location.pathname);
+
+    if(item !== undefined)
+      setSelectedItem(item);
+
+  }, [location.pathname]);
 
   return (
     <Box sx={{ display: "flex" }}>

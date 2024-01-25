@@ -65,7 +65,7 @@ export default function Students() {
       display: (student) => student.middleName,
     },
     {
-      label: "Student type",
+      label: "Student Type",
       display: (student) => student.studentType,
     },
     {
