@@ -11,6 +11,7 @@ import useAcademic from "../hooks/useAcademic";
 import { useGetFacultiesQuery } from "services/facultyServices";
 import { Item } from "components/SelectWrapper";
 import DeleteModal from "components/DeleteModal";
+import { useSnackbar } from "notistack";
 
 enum Upsert { Add, Update }
 
@@ -34,6 +35,8 @@ export default function Subjects() {
   const [addSubject] = useAddSubjectMutation();
   const [updateSubject] = useUpdateSubjectMutation();
   const [deleteSubject] = useDeleteSubjectMutation();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const facultyList : Item[] = useMemo(() => 
     faculties.map((o : FacultyType) => ({
@@ -156,7 +159,7 @@ export default function Subjects() {
     action.unwrap().then(resp => {
       refetch();
       setOpenUpsertModal(false);
-      console.log("resp -> ", resp);
+      enqueueSnackbar(resp.message)
     });
   }
 
@@ -166,7 +169,7 @@ export default function Subjects() {
     deleteSubject({id: targetSubject.id}).unwrap().then(resp => {
       refetch();
       setOpenDeleteModal(false);
-      console.log("resp -> ", resp);
+      enqueueSnackbar(resp.message)
     });
   }
 
