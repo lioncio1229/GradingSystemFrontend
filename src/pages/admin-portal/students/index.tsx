@@ -13,6 +13,7 @@ import {
   SelectChangeEvent,
   Toolbar,
   Button,
+  Typography,
 } from "@mui/material";
 import { Student, StudentUpsertSchema } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
@@ -22,6 +23,8 @@ import SelectWrapper from "components/SelectWrapper";
 import useAcademic from "../hooks/useAcademic";
 import DeleteModal from "components/DeleteModal";
 import { useSnackbar } from "notistack";
+import DatePickerWrapper from "layout/DatePickerWrapper";
+import dayjs, { Dayjs } from "dayjs";
 
 enum Upsert {
   Add,
@@ -177,6 +180,13 @@ export default function Students() {
     } as StudentUpsertSchema);
   };
 
+  const handleBirthdateChange = (date: Dayjs) => {
+    setTargetStudent({
+      ...targetStudent,
+      birthdate: date.format("MM/DD/YYYY"),
+    } as StudentUpsertSchema);
+  };
+
   const handleConfirm = () => {
     if (targetStudent == null || upsertType == null) return;
 
@@ -210,7 +220,11 @@ export default function Students() {
         open={openUpsertModal}
         onConfirm={handleConfirm}
         onClose={() => setOpenUpsertModal(false)}
-        title={(upsertType === Upsert.Add ? "Add" : "Update") + " Student"}
+        title={
+          <Typography color="primary" variant="h6">
+            {(upsertType === Upsert.Add ? "Add" : "Update") + " New Student"}
+          </Typography>
+        }
       >
         {targetStudent && (
           <Stack rowGap={2}>
@@ -254,13 +268,10 @@ export default function Students() {
               value={targetStudent.sufix}
               onChange={handleTextChange}
             />
-            <TextField
-              name="birthdate"
-              variant="outlined"
+            <DatePickerWrapper
               label="Birthdate"
-              fullWidth
-              value={targetStudent.birthdate}
-              onChange={handleTextChange}
+              value={targetStudent.birthdate !== "" ? dayjs(targetStudent.birthdate) : dayjs("1/1/1999")}
+              onChange={handleBirthdateChange}
             />
             <TextField
               name="nationality"

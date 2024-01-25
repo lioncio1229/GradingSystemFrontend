@@ -13,6 +13,7 @@ import {
   SelectChangeEvent,
   Toolbar,
   Button,
+  Typography,
 } from "@mui/material";
 import {
   Subject,
@@ -207,7 +208,9 @@ export default function Subjects() {
         open={openUpsertModal}
         onConfirm={handleConfirm}
         onClose={() => setOpenUpsertModal(false)}
-        title={(upsertType === Upsert.Add ? "Add" : "Update") + " Subject"}
+        title={<Typography color="primary" variant="h6">
+        {(upsertType === Upsert.Add ? "Add" : "Update") + " New Subject"}
+      </Typography>}
       >
         {targetSubject && (
           <Stack rowGap={2}>
