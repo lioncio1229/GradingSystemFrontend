@@ -1,17 +1,5 @@
 import { emptySplitApi } from ".";
-
-export type RegisterModel = {
-    username: string,
-    email: string,
-    password: FormDataEntryValue | null,
-    firstName: string,
-    lastName: string,
-}
-
-export type LoginModel = {
-    username: FormDataEntryValue,
-    password: FormDataEntryValue,   
-}
+import { RegisterModel, LoginModel } from "./types";
 
 const authManagementApi = emptySplitApi.injectEndpoints({
     overrideExisting: false,

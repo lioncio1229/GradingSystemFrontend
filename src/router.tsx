@@ -4,6 +4,7 @@ import MainPage from "pages";
 import AdminSignup from "pages/admin-auth/AdminSignup";
 import AdminSignin from "pages/admin-auth/AdminSignin";
 import AdministrationLayout from "layout/AdministrationLayout";
+import Subjects from "pages/admin-portal/subjects";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,13 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        element: <AdministrationLayout />
+        element: <AdministrationLayout />,
+        children: [
+            {
+                path: "subjects",
+                element: <Subjects />
+            }
+        ]
     }
 ]);
 
