@@ -1,17 +1,15 @@
 import { useState, useMemo } from "react";
 import DataTable, { Column } from "components/DataTable";
-import { useGetAllSubjectsQuery } from "services/subjectServices";
+import { useGetAllSubjectsQuery, useUpdateSubjectMutation } from "services/subjectServices";
 import { Stack, IconButton, TextField, SelectChangeEvent } from "@mui/material";
-import { Subject } from "services/types";
+import { Subject, FacultyType, SubjectAddUpdateSchema } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import SelectWrapper from "components/SelectWrapper";
 import useAcademic from "../hooks/useAcademic";
-import { SubjectAddUpdateSchema } from "services/types";
 import { useGetFacultiesQuery } from "services/facultyServices";
 import { Item } from "components/SelectWrapper";
-import { FacultyType } from "services/types";
 
 export default function Subjects() {
   const [filter, setFilter] = useState<Filter>({
@@ -25,8 +23,9 @@ export default function Subjects() {
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   
   const { strands, semesters, yearLevels } = useAcademic();
-  const { data } = useGetAllSubjectsQuery(filter);
+  const { data, refetch } = useGetAllSubjectsQuery(filter);
   const { data: faculties = [] } = useGetFacultiesQuery(null);
+  const [updateSubject] = useUpdateSubjectMutation();
 
   const facultyList : Item[] = useMemo(() => 
     faculties.map((o : FacultyType) => ({
@@ -75,6 +74,7 @@ export default function Subjects() {
   const handleUpdateClick = (subject: Subject) => {
     
     const subjectToUpdate : SubjectAddUpdateSchema = {
+      id: subject.id,
       userId: subject.faculty.id,
       name: subject.name,
       room: subject.room,
@@ -91,6 +91,7 @@ export default function Subjects() {
 
   const handleFilterChange = (updatedFilter: Filter) => {
     setFilter(updatedFilter);
+    refetch();
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,10 +108,21 @@ export default function Subjects() {
     } as SubjectAddUpdateSchema);
   };
 
+  const handleSubjectUpdate = () => {
+    if(selectedSubject == null) return;
+
+    updateSubject(selectedSubject).unwrap().then(resp => {
+      refetch();
+      setOpenUpdateModal(false);
+      console.log("resp -> ", resp);
+    });
+  }
+
   return (
     <>
       <CustomModal
         open={openUpdateModal}
+        onConfirm={handleSubjectUpdate}
         onClose={() => setOpenUpdateModal(false)}
         title="Update Subject"
       >
@@ -174,7 +186,6 @@ export default function Subjects() {
 
       <Stack spacing={2}>
         <SearchFilter filter={filter} onChange={handleFilterChange} />
-
         <DataTable columns={columns} rows={data} />
       </Stack>
     </>

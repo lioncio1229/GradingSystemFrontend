@@ -53,6 +53,7 @@ export type SearchFilter = {
 }
 
 export type SubjectAddUpdateSchema = {
+    id: string,
     name: string,
     room: string,
     code: string,

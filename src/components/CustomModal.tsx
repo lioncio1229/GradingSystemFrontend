@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Modal, Card, CardContent, CardActions, CardHeader } from "@mui/material";
+import { Box, Button, Modal, Card, CardContent, CardActions, CardHeader } from "@mui/material";
 
 type CustomDialogProps = {
     title: string,
@@ -32,7 +32,7 @@ export default function CustomModal({
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ minWidth: 300, maxHeight: "95vh", overflowY: "scroll" }}>
             <CardHeader 
               title={title}
             />
@@ -40,8 +40,8 @@ export default function CustomModal({
                 {children}
             </CardContent>
             <CardActions sx={{justifyContent: "flex-end"}}>
-                <Button variant="contained">Confirm</Button>
-                <Button variant="contained">Close</Button>
+                <Button variant="contained" onClick={onConfirm}>Confirm</Button>
+                <Button variant="contained" onClick={onClose}>Close</Button>
             </CardActions>
         </Card>
       </Box>
