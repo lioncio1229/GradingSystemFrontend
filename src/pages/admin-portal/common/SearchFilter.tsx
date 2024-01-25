@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Stack, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material"
 import { useGetStrandsQuery, useGetSemestersQuery, useGetYearLevelsQuery } from "services/academicLevelServices";
 import { Strand, Semester, YearLevel } from "services/types";
@@ -17,7 +17,7 @@ type FilterSelectProps = {
     onChange: (event: SelectChangeEvent) => void,
 }
 
-type Filter = {
+export type Filter = {
     semester: string,
     strand: string,
     yearLevel: string,
@@ -52,19 +52,20 @@ function FilterSelect ({
 }
 
 type SearchFilterProps = {
+    filter: Filter,
     onChange?: (filter: Filter) => void,
 }
 
-export default function SearchFilter({ onChange } : SearchFilterProps)
+export default function SearchFilter({ filter : _filter = {
+    semester: "",
+    strand: "",
+    yearLevel: "",
+}, onChange } : SearchFilterProps)
 {
     const { data: strands = [] } = useGetStrandsQuery(null);
     const{ data: semesters = [] } = useGetSemestersQuery(null);
     const { data: yearLevels = [] } = useGetYearLevelsQuery(null);
-    const [filter, setFilter] = useState<Filter>({
-        semester: "",
-        strand: "",
-        yearLevel: "",
-    });
+    const [filter, setFilter] = useState<Filter | null>(null);
 
     const strandList : Item[] = useMemo(() => strands.map((o : Strand) => ({
         key: o.code,
@@ -86,9 +87,13 @@ export default function SearchFilter({ onChange } : SearchFilterProps)
 
     const handleChange = (event: SelectChangeEvent) => {
         const newFilterValue = {...filter, [event.target.name]: event.target.value};
-        setFilter(newFilterValue);
-        onChange?.(newFilterValue);
+        setFilter(newFilterValue as Filter);
+        onChange?.(newFilterValue as Filter);
     };
+
+    useEffect(() => {
+        setFilter(_filter);
+    }, [_filter]);
 
     return (
         <Stack flexDirection="row" gap={2}>
@@ -96,21 +101,21 @@ export default function SearchFilter({ onChange } : SearchFilterProps)
                 items={strandList}
                 label="Strands"
                 name="strand"
-                value={filter.strand}
+                value={filter?.strand ?? ""}
                 onChange={handleChange}
             />
             <FilterSelect
                 items={semesterList}
                 label="Semesters"
                 name="semester"
-                value={filter.semester}
+                value={filter?.semester ?? ""}
                 onChange={handleChange}
             />
             <FilterSelect
                 items={yearLevelList}
                 label="Year Levels"
                 name="yearLevel"
-                value={filter.yearLevel}
+                value={filter?.yearLevel ?? ""}
                 onChange={handleChange}
             />
         </Stack>

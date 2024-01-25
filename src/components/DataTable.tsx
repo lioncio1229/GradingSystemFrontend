@@ -10,14 +10,14 @@ import { SxProps } from "@mui/material";
 
 export interface Row {}
 
-export interface Column {
+export interface Column<Row> {
     align?: "left" | "right" | "center" | "inherit" | "justify" | undefined,
     minWidth?: number,
     label: string,
     display: (row : Row) => JSX.Element | string,
 }
 
-interface DataTableProps<TRows extends Row, TColumn extends Column> {
+interface DataTableProps<TRows extends Row, TColumn extends Column<TRows>> {
     columns: TColumn[],
     rows: TRows[],
     // withPagination: boolean,
@@ -30,7 +30,7 @@ interface DataTableProps<TRows extends Row, TColumn extends Column> {
     sx?: SxProps,
 }
 
-export default function DataTable<TRows extends Row, TColumn extends Column>({
+export default function DataTable<TRows extends Row, TColumn extends Column<TRows>>({
   columns,
   rows,
 //   withPagination,
