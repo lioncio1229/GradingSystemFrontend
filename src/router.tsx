@@ -5,6 +5,7 @@ import AdminSignup from "pages/admin-auth/AdminSignup";
 import AdminSignin from "pages/admin-auth/AdminSignin";
 import AdministrationLayout from "layout/AdministrationLayout";
 import Subjects from "pages/admin-portal/subjects";
+import AdminPortal from "pages/admin-portal";
 
 const router = createBrowserRouter([
     {
@@ -23,15 +24,21 @@ const router = createBrowserRouter([
                 path: "/admin/signin",
                 element: <AdminSignin />
             }
-        ]
+        ],
     },
     {
         path: "/admin",
         element: <AdministrationLayout />,
         children: [
             {
-                path: "subjects",
-                element: <Subjects />
+                path: "portal",
+                element: <AdminPortal />,
+                 children: [
+                    {
+                        path: "",
+                        element: <Subjects />
+                    }
+                ]
             }
         ]
     }

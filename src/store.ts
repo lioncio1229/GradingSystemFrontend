@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { emptySplitApi } from "./services";
 import globalReducer from './globalSlice';
+import adminReducer from 'pages/admin-portal/slice';
 
 export const store = configureStore({
   reducer: {
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
     global: globalReducer,
+    adminPortal: adminReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(emptySplitApi.middleware),
 })

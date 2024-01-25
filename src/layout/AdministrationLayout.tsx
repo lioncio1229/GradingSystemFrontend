@@ -15,7 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Outlet } from "react-router-dom";
 import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { School, MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
+import { MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
 import Logo from "assets/logo.png";
 import { useLocation } from "react-router-dom";
 
@@ -32,11 +32,6 @@ type ListItem = {
 }
 
 const mainList : ListItem[] = [
-  {
-    icon: <School />,
-    label: "Strands",
-    path: "/strands",
-  },
   {
     icon: <Subject />,
     label: "Subjects",

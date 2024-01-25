@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { LockOutlined, ArrowBack } from "@mui/icons-material";
 
-import { useRegisterMutation, RegisterModel } from "services/adminAuthServices";
+import { useRegisterMutation } from "services/adminAuthServices";
+import { RegisterModel } from "services/types";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 

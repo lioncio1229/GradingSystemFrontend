@@ -10,7 +10,8 @@ import {
   Container,
 } from "@mui/material";
 import { LockOutlined, ArrowBack } from "@mui/icons-material";
-import { useLoginMutation, LoginModel } from "services/adminAuthServices";
+import { useLoginMutation } from "services/adminAuthServices";
+import { LoginModel } from "services/types";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
