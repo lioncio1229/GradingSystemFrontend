@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import DataTable, { Column } from "components/DataTable";
 import { useGetAllSubjectsQuery } from "services/subjectServices";
 import { Stack, IconButton, TextField, SelectChangeEvent } from "@mui/material";
@@ -9,6 +9,9 @@ import CustomModal from "components/CustomModal";
 import SelectWrapper from "components/SelectWrapper";
 import useAcademic from "../hooks/useAcademic";
 import { SubjectAddUpdateSchema } from "services/types";
+import { useGetFacultiesQuery } from "services/facultyServices";
+import { Item } from "components/SelectWrapper";
+import { FacultyType } from "services/types";
 
 export default function Subjects() {
   const [filter, setFilter] = useState<Filter>({
@@ -18,12 +21,20 @@ export default function Subjects() {
   });
 
   const [selectedSubject, setSelectedSubject] = useState<SubjectAddUpdateSchema | null>(null);
-
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   
   const { strands, semesters, yearLevels } = useAcademic();
   const { data } = useGetAllSubjectsQuery(filter);
+  const { data: faculties = [] } = useGetFacultiesQuery(null);
+
+  const facultyList : Item[] = useMemo(() => 
+    faculties.map((o : FacultyType) => ({
+      key: o.id,
+      value: o.id,
+      label: o.firstName + " " + o.lastName
+    } as Item))
+  , [faculties])
 
   const columns: Column<Subject>[] = [
     {
@@ -135,6 +146,13 @@ export default function Subjects() {
               label="Strand"
               onChange={handleSelectChange}
               value={selectedSubject.strandCode}
+            />
+            <SelectWrapper 
+              name="userId"
+              items={facultyList}
+              label="Faculty"
+              onChange={handleSelectChange}
+              value={selectedSubject.userId}
             />
             <SelectWrapper 
               name="semesterKey"
