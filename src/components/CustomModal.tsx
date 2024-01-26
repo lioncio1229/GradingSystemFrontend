@@ -14,7 +14,7 @@ type CustomDialogProps = {
   open: boolean;
   onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
   onClose?: React.MouseEventHandler<HTMLButtonElement>;
-  children?: JSX.Element | JSX.Element[] | null;
+  children?: JSX.Element | JSX.Element[] | string | null;
 };
 
 export default function CustomModal({

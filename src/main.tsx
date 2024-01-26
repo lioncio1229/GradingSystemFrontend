@@ -8,6 +8,7 @@ import theme from 'theme'
 import CssBaseline from '@mui/material/CssBaseline';
 import { RouterProvider } from "react-router-dom";
 import { SnackbarProvider } from 'notistack'
+import ShowErrorModal from 'common/ShowErrorModal'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
           <CssBaseline />
+          <ShowErrorModal />
           <RouterProvider router={router} />
         </SnackbarProvider>
       </ThemeProvider>
