@@ -46,7 +46,7 @@ export default function AdminSignin() {
       .then((resp) => {
         localStorage.setItem("token", resp.token);
         setButtonLoading(false);
-        //   navigate("/main");
+          navigate("/admin/portal");
       })
       .catch((err) => {
         setButtonLoading(false);
