@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import {
   User,
-  UserUpsertSchema,
+  UserUpsertRequest,
 } from "services/types";
 
 import { Add, Edit, Delete } from "@mui/icons-material";
@@ -31,7 +31,7 @@ enum Upsert {
 
 export default function Teachers() {
   const [targetTeacher, setTargetTeacher] =
-    useState<UserUpsertSchema | null>(null);
+    useState<UserUpsertRequest | null>(null);
 
   const [openUpsertModal, setOpenUpsertModal] = useState<boolean>(false);
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
@@ -84,7 +84,7 @@ export default function Teachers() {
   ];
 
   const handleAddButtonClick = () => {
-    const teacherToAdd: UserUpsertSchema = {
+    const teacherToAdd: UserUpsertRequest = {
       id: "",
       email: "",
       userName: "",
@@ -99,7 +99,7 @@ export default function Teachers() {
     setOpenUpsertModal(true);
   };
 
-  const mapTeacherToScheme = (user: User): UserUpsertSchema => {
+  const mapTeacherToScheme = (user: User): UserUpsertRequest => {
     return {
       id: user.id,
       userName: user.userName,
@@ -107,7 +107,7 @@ export default function Teachers() {
       firstName: user.firstName,
       lastName: user.lastName,
       roles: user.roles.map(o => o.name),
-    } as UserUpsertSchema;
+    } as UserUpsertRequest;
   };
 
   const handleUpdateButtonClick = (subject: User) => {
@@ -127,7 +127,7 @@ export default function Teachers() {
     setTargetTeacher({
       ...targetTeacher,
       [event.target.name]: event.target.value,
-    } as UserUpsertSchema);
+    } as UserUpsertRequest);
   };
 
   const handleConfirm = () => {

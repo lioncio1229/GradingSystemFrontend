@@ -58,7 +58,7 @@ export interface SearchFilter {
     semester: string,
 }
 
-export interface SubjectUpsertSchema {
+export interface SubjectUpsertRequest {
     id: string,
     name: string,
     room: string,
@@ -90,7 +90,7 @@ export interface Student {
     semester: Semester,
 }
 
-export interface StudentUpsertSchema {
+export interface StudentUpsertRequest {
     id: string,
     email: string;
     firstName: string;
@@ -110,7 +110,7 @@ export interface StudentUpsertSchema {
     semesterKey: string;
 }
 
-export interface UserUpsertSchema {
+export interface UserUpsertRequest {
     id: string,
     userName: string;
     email: string;
@@ -118,4 +118,20 @@ export interface UserUpsertSchema {
     firstName: string;
     lastName: string;
     roles: string[];
+}
+
+export interface Lecture {
+    id: string;
+    lectureDate: string;
+    from: string;
+    to: string;
+    subject: Subject;
+}
+
+export interface LectureUpsertRequest {
+    id: string,
+    lectureDate: string;
+    from: string;
+    to: string;
+    subjectId1: string;
 }

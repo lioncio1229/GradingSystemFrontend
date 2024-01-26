@@ -15,7 +15,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { Student, StudentUpsertSchema } from "services/types";
+import { Student, StudentUpsertRequest } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
@@ -39,7 +39,7 @@ export default function Students() {
   });
 
   const [targetStudent, setTargetStudent] =
-    useState<StudentUpsertSchema | null>(null);
+    useState<StudentUpsertRequest | null>(null);
 
   const [openUpsertModal, setOpenUpsertModal] = useState<boolean>(false);
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
@@ -101,7 +101,7 @@ export default function Students() {
   ];
 
   const handleAddButtonClick = () => {
-    const studentToAdd: StudentUpsertSchema = {
+    const studentToAdd: StudentUpsertRequest = {
       id: "",
       email: "",
       firstName: "",
@@ -126,7 +126,7 @@ export default function Students() {
     setOpenUpsertModal(true);
   };
 
-  const mapStudentToScheme = (student: Student): StudentUpsertSchema => {
+  const mapStudentToScheme = (student: Student): StudentUpsertRequest => {
     return {
       id: student.id,
       email: student.email,
@@ -145,7 +145,7 @@ export default function Students() {
       semesterKey: student.semester.key,
       strandCode: student.strand.code,
       yearLevelKey: student.yearLevel.key,
-    } as StudentUpsertSchema;
+    } as StudentUpsertRequest;
   };
 
   const handleUpdateButtonClick = (student: Student) => {
@@ -170,21 +170,21 @@ export default function Students() {
     setTargetStudent({
       ...targetStudent,
       [event.target.name]: event.target.value,
-    } as StudentUpsertSchema);
+    } as StudentUpsertRequest);
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setTargetStudent({
       ...targetStudent,
       [event.target.name]: event.target.value,
-    } as StudentUpsertSchema);
+    } as StudentUpsertRequest);
   };
 
   const handleBirthdateChange = (date: Dayjs) => {
     setTargetStudent({
       ...targetStudent,
       birthdate: date.format("MM/DD/YYYY"),
-    } as StudentUpsertSchema);
+    } as StudentUpsertRequest);
   };
 
   const handleConfirm = () => {

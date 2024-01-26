@@ -1,31 +1,31 @@
 import { SearchFilter } from "./types";
 import { emptySplitApi } from ".";
-import { SubjectUpsertSchema } from "./types";
+import { SubjectUpsertRequest } from "./types";
 
 const subjectManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
   endpoints: (builder) => ({
     getAllSubjects: builder.query({
       query: (searchFilter: SearchFilter) =>
-        `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
+        `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
     addSubject: builder.mutation({
-      query: (model: SubjectUpsertSchema) => ({
-        url: `/api/v1/subjects`,
+      query: (model: SubjectUpsertRequest) => ({
+        url: `/api/v1/lectures`,
         method: "POST",
         body: model,
       }),
     }),
     updateSubject: builder.mutation({
-      query: (model: SubjectUpsertSchema) => ({
-        url: `/api/v1/subjects/${model.id}`,
+      query: (model: SubjectUpsertRequest) => ({
+        url: `/api/v1/lectures/${model.id}`,
         method: "PUT",
         body: model,
       }),
     }),
     deleteSubject: builder.mutation({
       query: (model: { id: string }) => ({
-        url: `/api/v1/subjects/${model.id}`,
+        url: `/api/v1/lectures/${model.id}`,
         method: "DELETE"
       })
     })

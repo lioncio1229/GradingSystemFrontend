@@ -1,6 +1,6 @@
 import { SearchFilter } from "./types";
 import { emptySplitApi } from ".";
-import { StudentUpsertSchema } from "./types";
+import { StudentUpsertRequest } from "./types";
 
 const studentManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
@@ -10,14 +10,14 @@ const studentManagementApi = emptySplitApi.injectEndpoints({
         `/api/v1/students?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
     addStudent: builder.mutation({
-      query: (model: StudentUpsertSchema) => ({
+      query: (model: StudentUpsertRequest) => ({
         url: `/api/v1/students`,
         method: "POST",
         body: model,
       }),
     }),
     updateStudent: builder.mutation({
-      query: (model: StudentUpsertSchema) => ({
+      query: (model: StudentUpsertRequest) => ({
         url: `/api/v1/students/${model.id}`,
         method: "PUT",
         body: model,

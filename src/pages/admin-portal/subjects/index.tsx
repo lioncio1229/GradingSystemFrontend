@@ -18,7 +18,7 @@ import {
 import {
   Subject,
   User,
-  SubjectUpsertSchema as SubjectUpsertSchema,
+  SubjectUpsertRequest as SubjectUpsertRequest,
 } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Add, Edit, Delete } from "@mui/icons-material";
@@ -43,7 +43,7 @@ export default function Subjects() {
   });
 
   const [targetSubject, setTargetSubject] =
-    useState<SubjectUpsertSchema | null>(null);
+    useState<SubjectUpsertRequest | null>(null);
 
   const [openUpsertModal, setOpenUpsertModal] = useState<boolean>(false);
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
@@ -112,7 +112,7 @@ export default function Subjects() {
   ];
 
   const handleAddButtonClick = () => {
-    const subjectToAdd: SubjectUpsertSchema = {
+    const subjectToAdd: SubjectUpsertRequest = {
       id: "",
       userId: "",
       name: "",
@@ -129,7 +129,7 @@ export default function Subjects() {
     setOpenUpsertModal(true);
   };
 
-  const mapSubjectToScheme = (subject: Subject): SubjectUpsertSchema => {
+  const mapSubjectToScheme = (subject: Subject): SubjectUpsertRequest => {
     return {
       id: subject.id,
       userId: subject.faculty.id,
@@ -140,7 +140,7 @@ export default function Subjects() {
       strandCode: subject.strand.code,
       yearLevelKey: subject.yearLevel.key,
       semesterKey: subject.semester.key,
-    } as SubjectUpsertSchema;
+    } as SubjectUpsertRequest;
   };
 
   const handleUpdateButtonClick = (subject: Subject) => {
@@ -165,14 +165,14 @@ export default function Subjects() {
     setTargetSubject({
       ...targetSubject,
       [event.target.name]: event.target.value,
-    } as SubjectUpsertSchema);
+    } as SubjectUpsertRequest);
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setTargetSubject({
       ...targetSubject,
       [event.target.name]: event.target.value,
-    } as SubjectUpsertSchema);
+    } as SubjectUpsertRequest);
   };
 
   const handleConfirm = () => {

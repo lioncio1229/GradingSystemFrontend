@@ -1,5 +1,5 @@
 import { emptySplitApi } from ".";
-import { UserUpsertSchema } from "./types";
+import { UserUpsertRequest } from "./types";
 
 const userManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
@@ -8,14 +8,14 @@ const userManagementApi = emptySplitApi.injectEndpoints({
       query: () => "api/v1/users",
     }),
     addUser: builder.mutation({
-      query: (model: UserUpsertSchema) => ({
+      query: (model: UserUpsertRequest) => ({
         url: `/api/v1/users`,
         method: "POST",
         body: model,
       }),
     }),
     updateUser: builder.mutation({
-      query: (model: UserUpsertSchema) => ({
+      query: (model: UserUpsertRequest) => ({
         url: `/api/v1/users/${model.id}`,
         method: "PUT",
         body: model,
