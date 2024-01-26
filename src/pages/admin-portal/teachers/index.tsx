@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import DataTable, { Column } from "components/DataTable";
 import {
   useGetAllUsersQuery,
@@ -37,13 +37,18 @@ export default function Teachers() {
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const { data, refetch } = useGetAllUsersQuery(null);
+  const { data = [], refetch } = useGetAllUsersQuery(null);
 
   const [addTeacher] = useAddUserMutation();
   const [updateTeacher] = useUpdateUserMutation();
   const [deleteTeacher] = useDeleteUserMutation();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const teachers : User[] = useMemo(() => {
+    const _teachers : User[] = data;
+    return _teachers.filter(o => o.roles.find(r => r.name === "faculty"));
+  }, [data]);
 
   const columns: Column<User>[] = [
     {
@@ -233,7 +238,7 @@ export default function Teachers() {
             Add Teacher
           </Button>
         </Toolbar>
-        <DataTable columns={columns} rows={data} />
+        <DataTable columns={columns} rows={teachers} />
       </Stack>
     </>
   );
