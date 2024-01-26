@@ -45,7 +45,7 @@ const mainList : ListItem[] = [
   {
     icon: <SupervisorAccount />,
     label: "Teachers",
-    path: "/teachers",
+    path: "/admin/portal/teachers",
   },
   {
     icon: <MenuBook/>,

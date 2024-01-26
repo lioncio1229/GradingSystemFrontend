@@ -7,6 +7,7 @@ import AdministrationLayout from "layout/AdministrationLayout";
 import AdminPortal from "pages/admin-portal";
 import Subjects from "pages/admin-portal/subjects";
 import Students from "pages/admin-portal/students";
+import Teachers from "pages/admin-portal/teachers";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
                         path: "students",
                         element: <Students />
                     },
+                    {
+                        path: "teachers",
+                        element: <Teachers />
+                    }
                 ]
             }
         ]

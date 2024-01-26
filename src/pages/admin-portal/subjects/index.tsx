@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import {
   Subject,
-  FacultyType,
+  User,
   SubjectUpsertSchema as SubjectUpsertSchema,
 } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
@@ -25,7 +25,7 @@ import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import SelectWrapper from "components/SelectWrapper";
 import useAcademic from "../hooks/useAcademic";
-import { useGetFacultiesQuery } from "services/facultyServices";
+import { useGetAllUsersQuery } from "services/userServices";
 import { Item } from "components/SelectWrapper";
 import DeleteModal from "components/DeleteModal";
 import { useSnackbar } from "notistack";
@@ -51,7 +51,7 @@ export default function Subjects() {
 
   const { strands, semesters, yearLevels } = useAcademic();
   const { data, refetch } = useGetAllSubjectsQuery(filter);
-  const { data: faculties = [] } = useGetFacultiesQuery(null);
+  const { data: faculties = [] } = useGetAllUsersQuery(null);
 
   const [addSubject] = useAddSubjectMutation();
   const [updateSubject] = useUpdateSubjectMutation();
@@ -62,7 +62,7 @@ export default function Subjects() {
   const facultyList: Item[] = useMemo(
     () =>
       faculties.map(
-        (o: FacultyType) =>
+        (o: User) =>
           ({
             key: o.id,
             value: o.id,

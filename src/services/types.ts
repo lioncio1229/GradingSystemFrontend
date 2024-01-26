@@ -1,5 +1,4 @@
-
-export type RegisterModel = {
+export interface RegisterModel {
     username: string,
     email: string,
     password: FormDataEntryValue | null,
@@ -7,52 +6,59 @@ export type RegisterModel = {
     lastName: string,
 }
 
-export type LoginModel = {
+export interface LoginModel {
     username: FormDataEntryValue,
     password: FormDataEntryValue,   
 }
 
-export type FacultyType = {
+export interface Role {
     id: string,
-    username: string,
-    firstName: string,
-    lastName: string   
+    name: string,
 }
 
-export type Strand = {
+export interface User {
+    id: string,
+    email: string,
+    userName: string,
+    firstName: string,
+    lastName: string,
+    roles: Role[],
+}
+
+export interface Strand {
     code: string,
     description: string
 }
 
-export type Semester = {
+export interface Semester {
     key: string,
     name: string,
 }
 
-export type YearLevel = {
+export interface YearLevel {
     key: string,
     name: string,
 }
 
-export type Subject = {
+export interface Subject {
     id: string,
     name: string,
     room: string,
     code: string,
     type: string,
-    faculty: FacultyType,
+    faculty: User,
     strand: Strand,
     yearLevel: YearLevel,
     semester: Semester,
 }
 
-export type SearchFilter = {
+export interface SearchFilter {
     strand: string,
     yearLevel: string,
     semester: string,
 }
 
-export type SubjectUpsertSchema = {
+export interface SubjectUpsertSchema {
     id: string,
     name: string,
     room: string,
@@ -103,4 +109,13 @@ export interface StudentUpsertSchema {
     yearLevelKey: string;
     semesterKey: string;
 }
-  
+
+export interface UserUpsertSchema {
+    id: string,
+    userName: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    roles: string[];
+}
