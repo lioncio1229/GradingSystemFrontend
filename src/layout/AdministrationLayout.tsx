@@ -50,7 +50,7 @@ const mainList : ListItem[] = [
   {
     icon: <MenuBook/>,
     label: "Lectures",
-    path: "/lectures",
+    path: "/admin/portal/lectures",
   },
 ];
 

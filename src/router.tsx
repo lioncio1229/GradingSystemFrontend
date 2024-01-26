@@ -8,6 +8,7 @@ import AdminPortal from "pages/admin-portal";
 import Subjects from "pages/admin-portal/subjects";
 import Students from "pages/admin-portal/students";
 import Teachers from "pages/admin-portal/teachers";
+import Lectures from "pages/admin-portal/lectures";
 
 const router = createBrowserRouter([
     {
@@ -47,7 +48,11 @@ const router = createBrowserRouter([
                     {
                         path: "teachers",
                         element: <Teachers />
-                    }
+                    },
+                    {
+                        path: "lectures",
+                        element: <Lectures />
+                    },
                 ]
             }
         ]

@@ -7,25 +7,25 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllSubjects: builder.query({
       query: (searchFilter: SearchFilter) =>
-        `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
+        `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
     addSubject: builder.mutation({
       query: (model: SubjectUpsertRequest) => ({
-        url: `/api/v1/lectures`,
+        url: `/api/v1/subjects`,
         method: "POST",
         body: model,
       }),
     }),
     updateSubject: builder.mutation({
       query: (model: SubjectUpsertRequest) => ({
-        url: `/api/v1/lectures/${model.id}`,
+        url: `/api/v1/subjects/${model.id}`,
         method: "PUT",
         body: model,
       }),
     }),
     deleteSubject: builder.mutation({
       query: (model: { id: string }) => ({
-        url: `/api/v1/lectures/${model.id}`,
+        url: `/api/v1/subjects/${model.id}`,
         method: "DELETE"
       })
     })

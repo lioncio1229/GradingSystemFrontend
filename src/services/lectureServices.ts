@@ -7,25 +7,25 @@ const lectureManagementApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllLectures: builder.query({
       query: (searchFilter: SearchFilter) =>
-        `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
+        `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
     addLecture: builder.mutation({
       query: (model: LectureUpsertRequest) => ({
-        url: `/api/v1/subjects`,
+        url: `/api/v1/lectures`,
         method: "POST",
         body: model,
       }),
     }),
     updateLecture: builder.mutation({
       query: (model: LectureUpsertRequest) => ({
-        url: `/api/v1/subjects/${model.id}`,
+        url: `/api/v1/lectures/${model.id}`,
         method: "PUT",
         body: model,
       }),
     }),
     deleteLecture: builder.mutation({
       query: (model: { id: string }) => ({
-        url: `/api/v1/subjects/${model.id}`,
+        url: `/api/v1/lectures/${model.id}`,
         method: "DELETE"
       })
     })
