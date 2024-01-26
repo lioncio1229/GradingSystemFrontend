@@ -18,7 +18,7 @@ import {
   User,
   UserUpsertSchema,
 } from "services/types";
-import SearchFilter, { Filter } from "../common/SearchFilter";
+
 import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import DeleteModal from "components/DeleteModal";
@@ -30,12 +30,6 @@ enum Upsert {
 }
 
 export default function Teachers() {
-  const [filter, setFilter] = useState<Filter>({
-    semester: "sem1",
-    strand: "ICT",
-    yearLevel: "g11",
-  });
-
   const [targetTeacher, setTargetTeacher] =
     useState<UserUpsertSchema | null>(null);
 
@@ -43,7 +37,7 @@ export default function Teachers() {
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const { data, refetch } = useGetAllUsersQuery(filter);
+  const { data, refetch } = useGetAllUsersQuery(null);
 
   const [addTeacher] = useAddUserMutation();
   const [updateTeacher] = useUpdateUserMutation();
@@ -127,11 +121,6 @@ export default function Teachers() {
     const subjectToDelete = mapTeacherToScheme(subject);
     setTargetTeacher(subjectToDelete);
     setOpenDeleteModal(true);
-  };
-
-  const handleFilterChange = (updatedFilter: Filter) => {
-    setFilter(updatedFilter);
-    refetch();
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -235,7 +224,6 @@ export default function Teachers() {
       />
 
       <Stack spacing={1}>
-        <SearchFilter filter={filter} onChange={handleFilterChange} />
         <Toolbar sx={{ justifyContent: "flex-end" }}>
           <Button
             startIcon={<Add />}
