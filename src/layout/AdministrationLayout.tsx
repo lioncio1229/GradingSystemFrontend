@@ -58,7 +58,7 @@ const otherList = [
   {
     icon: <Groups />,
     label: "Manage Users",
-    path: "/users"
+    path: "/admin/portal/users"
   }
 ];
 
@@ -126,7 +126,7 @@ export default function AdministrationLayout() {
   }
 
   useEffect(() => {
-    const item : ListItem | undefined = mainList.find(list => list.path === location.pathname);
+    const item : ListItem | undefined = [...mainList, ...otherList].find(list => list.path === location.pathname);
 
     if(item !== undefined)
       setSelectedItem(item);
@@ -212,7 +212,7 @@ export default function AdministrationLayout() {
           <Divider sx={{ my: 1 }} />
           {
             otherList.map(item => (
-              <ListItemButton onClick={() => handleItemClick(item)}>
+              <ListItemButton onClick={() => handleItemClick(item)} selected={item.path === selectedItem.path}>
                 <ListItemIcon>
                   {item.icon}
                 </ListItemIcon>
