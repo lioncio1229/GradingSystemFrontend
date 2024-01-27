@@ -8,16 +8,16 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useNavigate, Outlet } from "react-router-dom";
 import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
 import Logo from "assets/logo.png";
 import { useLocation } from "react-router-dom";
+import Account from "./Account";
+import useUserInfo from "hooks/useUserInfo";
 
 const drawerWidth: number = 240;
 
@@ -109,6 +109,9 @@ const Drawer = styled(MuiDrawer, {
 export default function AdministrationLayout() {
 
   const navigate = useNavigate();
+  const userData = useUserInfo();
+  console.log("userData -> ", userData);
+
   const [open, setOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState<ListItem>({
     label: "",
@@ -162,11 +165,7 @@ export default function AdministrationLayout() {
           >
             {selectedItem.label}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Account />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

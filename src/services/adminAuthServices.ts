@@ -17,6 +17,12 @@ const authManagementApi = emptySplitApi.injectEndpoints({
                 method: "POST",
                 body: model,
             })
+        }),
+        logout: builder.mutation({
+            query: () => ({
+                url: "api/v1/userauth/logout",
+                method: "POST"
+            })
         })
     })
 });
@@ -24,4 +30,5 @@ const authManagementApi = emptySplitApi.injectEndpoints({
 export const {
     useRegisterMutation,
     useLoginMutation,
+    useLogoutMutation,
 } = authManagementApi;
