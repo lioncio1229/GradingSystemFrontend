@@ -1,6 +1,11 @@
+import SubjectSelect from "../common/SubjectSelect"
+import { Box } from "@mui/material"
 
 export default function Grades() {
     return (
-        <div>Grades management</div>
+        <Box>
+            <SubjectSelect />
+            <div>Grades management</div>
+        </Box>
     )
 }
