@@ -44,10 +44,6 @@ const router = createBrowserRouter([
                         element: <Subjects />
                     },
                     {
-                        path: "grades",
-                        element: <Grades />
-                    },
-                    {
                         path: "students",
                         element: <Students />
                     },
