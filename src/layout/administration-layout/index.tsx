@@ -12,8 +12,19 @@ import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useNavigate, Outlet } from "react-router-dom";
-import { Stack, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { MenuBook, People, SupervisorAccount, Subject, Groups } from "@mui/icons-material";
+import {
+  Stack,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import {
+  MenuBook,
+  People,
+  SupervisorAccount,
+  Subject,
+  Groups,
+} from "@mui/icons-material";
 import Logo from "assets/logo.png";
 import { useLocation } from "react-router-dom";
 import Account from "./Account";
@@ -26,40 +37,52 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 type ListItem = {
-  icon: JSX.Element | null,
-  label: string,
-  path: string,
-}
+  icon: JSX.Element | null;
+  label: string;
+  path: string;
+  roles: string[];
+};
 
-const mainList : ListItem[] = [
+const mainList: ListItem[] = [
   {
     icon: <Subject />,
     label: "Subjects",
-    path: "/admin/portal",
+    path: "/portal/admin",
+    roles: ["admin"],
   },
   {
     icon: <People />,
     label: "Students",
-    path: "/admin/portal/students"
+    path: "/portal/admin/students",
+    roles: ["admin"],
   },
   {
     icon: <SupervisorAccount />,
     label: "Teachers",
-    path: "/admin/portal/teachers",
+    path: "/portal/admin/teachers",
+    roles: ["admin"],
   },
   {
-    icon: <MenuBook/>,
+    icon: <MenuBook />,
     label: "Lectures",
-    path: "/admin/portal/lectures",
+    path: "/portal/admin/lectures",
+    roles: ["admin"],
+  },
+  {
+    icon: <People />,
+    label: "Grades",
+    path: "/portal/faculty",
+    roles: ["faculty"],
   },
 ];
 
-const otherList = [
+const otherList: ListItem[] = [
   {
     icon: <Groups />,
     label: "Manage Users",
-    path: "/admin/portal/users"
-  }
+    path: "/portal/admin/users",
+    roles: ["admin"],
+  },
 ];
 
 const AppBar = styled(MuiAppBar, {
@@ -107,16 +130,18 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function AdministrationLayout() {
-
   const navigate = useNavigate();
-  const userData = useUserInfo();
-  console.log("userData -> ", userData);
+  const { roles } = useUserInfo();
+
+  const [mainListFiltered, setMainListFiltered] = useState<ListItem[]>([]);
+  const [otherListFiltered, setOtherListFiltered] = useState<ListItem[]>([]);
 
   const [open, setOpen] = useState(true);
   const [selectedItem, setSelectedItem] = useState<ListItem>({
     label: "",
     icon: null,
     path: "",
+    roles: [],
   });
   const toggleDrawer = () => {
     setOpen(!open);
@@ -126,14 +151,42 @@ export default function AdministrationLayout() {
 
   const handleItemClick = (item: ListItem) => {
     navigate(item.path);
-  }
+  };
 
   useEffect(() => {
-    const item : ListItem | undefined = [...mainList, ...otherList].find(list => list.path === location.pathname);
+    const _mainList = mainList.filter((item) =>
+      item.roles
+        .map((role) => roles.includes(role))
+        .some((roleIsIncluded) => roleIsIncluded === true)
+    );
 
-    if(item !== undefined)
-      setSelectedItem(item);
+    setMainListFiltered(_mainList);
 
+    const _otherList = otherList.filter((item) =>
+      item.roles
+        .map((role) => roles.includes(role))
+        .some((roleIsIncluded) => roleIsIncluded === true)
+    );
+
+    setOtherListFiltered(_otherList);
+
+    if(roles.includes("admin")) {
+      navigate("/portal/admin")
+    }
+    else if(roles.includes("faculty")) {
+      navigate("/portal/faculty");
+    }
+
+  }, [roles]);
+
+  useEffect(() => {
+    const item: ListItem | undefined = [...mainListFiltered, ...otherListFiltered].find(
+      (list) => list.path === location.pathname
+    );
+
+    if (item !== undefined) setSelectedItem(item);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   return (
@@ -180,10 +233,18 @@ export default function AdministrationLayout() {
           }}
         >
           <Stack alignItems="center">
-            <Typography variant="caption" color="primary">Administrator</Typography>
+            <Typography variant="caption" color="primary">
+              Administrator
+            </Typography>
             <Stack flexDirection="row" alignItems="center" gap={1}>
-              <Box component="img" src={Logo} sx={{width: 40, height: "auto"}} />
-              <Typography fontSize={24} color="primary" fontWeight="600">PHILTECH</Typography>
+              <Box
+                component="img"
+                src={Logo}
+                sx={{ width: 40, height: "auto" }}
+              />
+              <Typography fontSize={24} color="primary" fontWeight="600">
+                PHILTECH
+              </Typography>
             </Stack>
           </Stack>
           <IconButton
@@ -198,27 +259,25 @@ export default function AdministrationLayout() {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {
-            mainList.map(item => (
-              <ListItemButton onClick={() => handleItemClick(item)} selected={item.path === selectedItem.path}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            ))
-          }
+          {mainListFiltered.map((item) => (
+            <ListItemButton
+              onClick={() => handleItemClick(item)}
+              selected={item.path === selectedItem.path}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          ))}
           <Divider sx={{ my: 1 }} />
-          {
-            otherList.map(item => (
-              <ListItemButton onClick={() => handleItemClick(item)} selected={item.path === selectedItem.path}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            ))
-          }
+          {otherListFiltered.map((item) => (
+            <ListItemButton
+              onClick={() => handleItemClick(item)}
+              selected={item.path === selectedItem.path}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          ))}
         </List>
       </Drawer>
       <Box

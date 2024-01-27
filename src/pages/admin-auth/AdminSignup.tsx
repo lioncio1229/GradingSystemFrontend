@@ -72,7 +72,7 @@ export default function AdminSignup() {
       .then((resp) => {
         localStorage.setItem("token", resp.token);
         setButtonLoading(false);
-        navigate("/admin/portal");
+        navigate("/portal");
         console.log("resp -> ", resp);
       })
       .catch((err) => {
