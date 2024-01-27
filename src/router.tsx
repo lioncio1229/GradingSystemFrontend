@@ -10,6 +10,7 @@ import Students from "pages/admin-portal/students";
 import Teachers from "pages/admin-portal/teachers";
 import Lectures from "pages/admin-portal/lectures";
 import ManageUsers from "pages/admin-portal/user-management";
+import FacultyPortal from "pages/faculty-portal";
 import Grades from "pages/faculty-portal/grades";
 
 const router = createBrowserRouter([
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
             {
                 path: "admin",
                 element: <AdminPortal />,
-                 children: [
+                children: [
                     {
                         path: "",
                         element: <Subjects />
@@ -63,7 +64,13 @@ const router = createBrowserRouter([
             },
             {
                 path: "faculty",
-                element: <Grades />
+                element: <FacultyPortal />,
+                children: [
+                    {
+                        path: "",
+                        element: <Grades />
+                    },
+                ]
             }
         ]
     }

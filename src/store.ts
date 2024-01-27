@@ -3,6 +3,7 @@ import { emptySplitApi } from "./services";
 import globalReducer from "./globalSlice";
 import adminReducer from "pages/admin-portal/slice";
 import { setErrorOpen } from "./globalSlice";
+import facultyReducer from "pages/faculty-portal/slice";
 
 const errorMiddleware = (api) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
@@ -33,6 +34,7 @@ export const store = configureStore({
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
     global: globalReducer,
     adminPortal: adminReducer,
+    facultyPortal: facultyReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

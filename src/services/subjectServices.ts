@@ -9,6 +9,10 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
       query: (searchFilter: SearchFilter) =>
         `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
+    getSubjectsByFaculty: builder.mutation({
+      query: (mode: { facultyId: string }) =>
+        `api/v1/subjects/faculty?userId=${mode.facultyId}`
+    }),
     addSubject: builder.mutation({
       query: (model: SubjectUpsertRequest) => ({
         url: `/api/v1/subjects`,
@@ -34,6 +38,7 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
 
 export const {
   useGetAllSubjectsQuery,
+  useGetSubjectsByFacultyMutation,
   useAddSubjectMutation,
   useUpdateSubjectMutation,
   useDeleteSubjectMutation,

@@ -7,6 +7,7 @@ interface JwtPayloadExtended extends JwtPayload {
 }
 
 interface UserData {
+    id: string,
     email: string,
     userName: string,
     firstName: string,
@@ -16,6 +17,7 @@ interface UserData {
 
 export default function useUserInfo() : UserData {
     const [user, setUser] = useState<UserData>({
+        id: "",
         email: "",
         userName: "",
         firstName: "",
