@@ -133,6 +133,7 @@ export default function AdministrationLayout() {
   const navigate = useNavigate();
   const { roles } = useUserInfo();
 
+  const [roleTitle, setRoleTitle] = useState<string>("Administrator");
   const [mainListFiltered, setMainListFiltered] = useState<ListItem[]>([]);
   const [otherListFiltered, setOtherListFiltered] = useState<ListItem[]>([]);
 
@@ -169,6 +170,7 @@ export default function AdministrationLayout() {
     );
 
     setOtherListFiltered(_otherList);
+    setRoleTitle(roles.join(" and "));
 
     if(roles.includes("admin")) {
       navigate("/portal/admin")
@@ -233,8 +235,8 @@ export default function AdministrationLayout() {
           }}
         >
           <Stack alignItems="center">
-            <Typography variant="caption" color="primary">
-              Administrator
+            <Typography variant="caption" color="primary" textTransform="capitalize">
+              {roleTitle}
             </Typography>
             <Stack flexDirection="row" alignItems="center" gap={1}>
               <Box

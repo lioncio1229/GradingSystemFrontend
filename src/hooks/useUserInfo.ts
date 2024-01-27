@@ -3,7 +3,7 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 
 interface JwtPayloadExtended extends JwtPayload {
     userData: string,
-    role: string[],
+    role: string[] | string,
 }
 
 interface UserData {
@@ -32,7 +32,7 @@ export default function useUserInfo() : UserData {
 
             if(decoded.userData) {
                 const userData : UserData = JSON.parse(decoded.userData);
-                setUser({...userData, roles: decoded.role});
+                setUser({...userData, roles: typeof decoded.role === "string" ? [decoded.role] : decoded.role});
             }
         }
         catch(e) {
