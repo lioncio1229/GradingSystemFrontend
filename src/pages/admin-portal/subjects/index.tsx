@@ -24,7 +24,6 @@ import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import SelectWrapper from "components/SelectWrapper";
-import useAcademic from "../hooks/useAcademic";
 import { useGetAllUsersQuery } from "services/userServices";
 import { Item } from "components/SelectWrapper";
 import DeleteModal from "components/DeleteModal";
@@ -49,7 +48,6 @@ export default function Subjects() {
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const { strands, semesters, yearLevels } = useAcademic();
   const { data, refetch } = useGetAllSubjectsQuery(filter);
   const { data: faculties = [] } = useGetAllUsersQuery(null);
 
@@ -119,9 +117,9 @@ export default function Subjects() {
       room: "",
       code: "",
       type: "",
-      strandCode: "",
-      yearLevelKey: "",
-      semesterKey: "",
+      strandCode: filter.strand,
+      yearLevelKey: filter.yearLevel,
+      semesterKey: filter.semester,
     };
 
     setUpsertType(Upsert.Add);
@@ -137,9 +135,9 @@ export default function Subjects() {
       room: subject.room,
       code: subject.code,
       type: subject.type,
-      strandCode: subject.strand.code,
-      yearLevelKey: subject.yearLevel.key,
-      semesterKey: subject.semester.key,
+      strandCode: filter.strand,
+      yearLevelKey: filter.yearLevel,
+      semesterKey: filter.semester,
     } as SubjectUpsertRequest;
   };
 
@@ -244,30 +242,6 @@ export default function Subjects() {
               label="Faculty"
               onChange={handleSelectChange}
               value={targetSubject.userId}
-            />
-            <SelectWrapper
-              name="strandCode"
-              items={strands}
-              label="Strand"
-              onChange={handleSelectChange}
-              value={targetSubject.strandCode}
-              disabled={upsertType === Upsert.Update}
-            />
-            <SelectWrapper
-              name="semesterKey"
-              items={semesters}
-              label="Semester"
-              onChange={handleSelectChange}
-              value={targetSubject.semesterKey}
-              disabled={upsertType === Upsert.Update}
-            />
-            <SelectWrapper
-              name="yearLevelKey"
-              items={yearLevels}
-              label="Year Level"
-              onChange={handleSelectChange}
-              value={targetSubject.yearLevelKey}
-              disabled={upsertType === Upsert.Update}
             />
           </Stack>
         )}
