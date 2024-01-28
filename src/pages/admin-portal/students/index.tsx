@@ -19,8 +19,6 @@ import { Student, StudentUpsertRequest } from "services/types";
 import SearchFilter, { Filter } from "../common/SearchFilter";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
-import SelectWrapper from "components/SelectWrapper";
-import useAcademic from "../hooks/useAcademic";
 import DeleteModal from "components/DeleteModal";
 import { useSnackbar } from "notistack";
 import DatePickerWrapper from "layout/DatePickerWrapper";
@@ -45,7 +43,6 @@ export default function Students() {
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const { strands, semesters, yearLevels } = useAcademic();
   const { data, refetch } = useGetAllStudentsQuery(filter);
 
   const [addStudent] = useAddStudentMutation();
@@ -116,9 +113,9 @@ export default function Students() {
       gender: "",
       status: "",
       studentType: "",
-      semesterKey: "",
-      strandCode: "",
-      yearLevelKey: "",
+      strandCode: filter.strand,
+      yearLevelKey: filter.yearLevel,
+      semesterKey: filter.semester,
     };
 
     setUpsertType(Upsert.Add);
@@ -142,9 +139,9 @@ export default function Students() {
       gender: student.gender,
       status: student.status,
       studentType: student.studentType,
-      semesterKey: student.semester.key,
-      strandCode: student.strand.code,
-      yearLevelKey: student.yearLevel.key,
+      strandCode: filter.strand,
+      yearLevelKey: filter.yearLevel,
+      semesterKey: filter.semester,
     } as StudentUpsertRequest;
   };
 
@@ -328,27 +325,6 @@ export default function Students() {
               fullWidth
               value={targetStudent.studentType}
               onChange={handleTextChange}
-            />
-            <SelectWrapper
-              name="strandCode"
-              items={strands}
-              label="Strand"
-              onChange={handleSelectChange}
-              value={targetStudent.strandCode}
-            />
-            <SelectWrapper
-              name="semesterKey"
-              items={semesters}
-              label="Semester"
-              onChange={handleSelectChange}
-              value={targetStudent.semesterKey}
-            />
-            <SelectWrapper
-              name="yearLevelKey"
-              items={yearLevels}
-              label="Year Level"
-              onChange={handleSelectChange}
-              value={targetStudent.yearLevelKey}
             />
           </Stack>
         )}

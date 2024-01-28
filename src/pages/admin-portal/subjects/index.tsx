@@ -58,15 +58,19 @@ export default function Subjects() {
   const { enqueueSnackbar } = useSnackbar();
 
   const facultyList: Item[] = useMemo(
-    () =>
-      faculties.map(
-        (o: User) =>
+    () => {
+      const _faculties = faculties as User[];
+      const newFacultyList =_faculties.filter(o => o.roles.find(r => r.name === "faculty")).map(
+        o =>
           ({
             key: o.id,
             value: o.id,
             label: o.firstName + " " + o.lastName,
           } as Item)
-      ),
+      );
+
+      return newFacultyList;
+    },
     [faculties]
   );
 
