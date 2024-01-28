@@ -20,10 +20,15 @@ import {
   useUpdateGradeMutation,
 } from "services/gradeServices";
 import { Grade } from "services/types";
+import { useSelector } from "react-redux";
+import { subjectsSelector } from "../slice";
 
 export default function Grades() {
-  const { data: grades = [] } = useGetGradesBySubjectQuery({
-    subjectId: "FA8DA909-D1CC-458B-CD53-08DC1E4AE333",
+  const subjects = useSelector(subjectsSelector);
+  const [subjectId, setSubjectId] = useState<string>("");
+
+  const { data: grades = [], refetch } = useGetGradesBySubjectQuery({
+    subjectId,
   });
   const [updateGrade] = useUpdateGradeMutation();
 
@@ -35,7 +40,6 @@ export default function Grades() {
     event
   ) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      console.log("rowFocusOut");
       event.defaultMuiPrevented = true;
     }
   };
@@ -61,7 +65,7 @@ export default function Grades() {
   };
 
   const processRowUpdate = (newRow: GridRowModel) => {
-      const updatedRow = { ...newRow, isNew: false };
+    const updatedRow = { ...newRow, isNew: false };
     updateGrade(newRow as Grade)
       .unwrap()
       .then((resp) => {
@@ -69,8 +73,8 @@ export default function Grades() {
           row.id === newRow.id ? updatedRow : row
         );
         setRows(_rows);
-    });
-    
+      });
+
     return updatedRow;
   };
 
@@ -182,9 +186,24 @@ export default function Grades() {
     },
   ];
 
+  const handleSubjectChange = (subjectId: string) => {
+    setSubjectId(subjectId);
+  };
+
   useEffect(() => {
     setRows(grades as GridRowsProp);
   }, [grades]);
+
+  useEffect(() => {
+    if(subjects?.length > 0) {
+        setSubjectId(subjects[0].key);
+    }
+  }, [subjects]);
+
+  useEffect(() => {
+    refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subjectId]);
 
   return (
     <Box
@@ -199,7 +218,7 @@ export default function Grades() {
         },
       }}
     >
-      <SubjectSelect />
+      <SubjectSelect value={subjectId} onChange={handleSubjectChange} />
       <DataGrid
         rows={rows}
         columns={columns}
@@ -208,7 +227,7 @@ export default function Grades() {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        sx={{mt: 2}}
+        sx={{ mt: 2 }}
         hideFooterPagination={true}
         autoHeight={true}
       />

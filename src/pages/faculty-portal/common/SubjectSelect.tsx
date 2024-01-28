@@ -15,8 +15,9 @@ export default function SubjectSelect({ value = "", onChange } : SubjectSelectPr
     const [subject, setSubject] = useState<string>("");
 
     const handleChange = (event: SelectChangeEvent) => {
-        setSubject(event.target.value);
-        onChange?.(subject);
+        const subjectSelect = event.target.value;
+        setSubject(subjectSelect);
+        onChange?.(subjectSelect);
     };
 
     useEffect(() => {
