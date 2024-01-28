@@ -239,13 +239,6 @@ export default function Subjects() {
               onChange={handleTextChange}
             />
             <SelectWrapper
-              name="strandCode"
-              items={strands}
-              label="Strand"
-              onChange={handleSelectChange}
-              value={targetSubject.strandCode}
-            />
-            <SelectWrapper
               name="userId"
               items={facultyList}
               label="Faculty"
@@ -253,11 +246,20 @@ export default function Subjects() {
               value={targetSubject.userId}
             />
             <SelectWrapper
+              name="strandCode"
+              items={strands}
+              label="Strand"
+              onChange={handleSelectChange}
+              value={targetSubject.strandCode}
+              disabled={upsertType === Upsert.Update}
+            />
+            <SelectWrapper
               name="semesterKey"
               items={semesters}
               label="Semester"
               onChange={handleSelectChange}
               value={targetSubject.semesterKey}
+              disabled={upsertType === Upsert.Update}
             />
             <SelectWrapper
               name="yearLevelKey"
@@ -265,6 +267,7 @@ export default function Subjects() {
               label="Year Level"
               onChange={handleSelectChange}
               value={targetSubject.yearLevelKey}
+              disabled={upsertType === Upsert.Update}
             />
           </Stack>
         )}
