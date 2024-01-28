@@ -135,3 +135,14 @@ export interface LectureUpsertRequest {
     to: string;
     subjectId1: string;
 }
+
+export interface Grade {
+    id: string;
+    q1: number;
+    q2: number;
+    q3: number;
+    q4: number;
+    average: number;
+    remarks: string;
+    fullName: string;
+}

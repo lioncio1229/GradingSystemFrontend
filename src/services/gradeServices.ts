@@ -1,5 +1,5 @@
-
 import { emptySplitApi } from ".";
+import { Grade } from "./types";
 
 const gradeManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
@@ -9,9 +9,10 @@ const gradeManagementApi = emptySplitApi.injectEndpoints({
         `/api/v1/grades/subject/${model.subjectId}`,
     }),
     updateGrade: builder.mutation({
-      query: (model: { gradeId: string }) => ({
-        url: `/api/v1/grades/${model.gradeId}`,
+      query: (model: Grade) => ({
+        url: `/api/v1/grades/${model.id}`,
         method: "PUT",
+        body: model,
       }),
     }),
   }),
