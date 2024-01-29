@@ -6,6 +6,9 @@ const lectureManagementApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
   endpoints: (builder) => ({
     getAllLectures: builder.query({
+      query: () => `/api/v1/lectures/all`
+    }),
+    getLectures: builder.query({
       query: (searchFilter: SearchFilter) =>
         `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
@@ -34,6 +37,7 @@ const lectureManagementApi = emptySplitApi.injectEndpoints({
 
 export const {
   useGetAllLecturesQuery,
+  useGetLecturesQuery,
   useAddLectureMutation,
   useUpdateLectureMutation,
   useDeleteLectureMutation,

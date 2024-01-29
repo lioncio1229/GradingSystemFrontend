@@ -76,7 +76,13 @@ const mainList: ListItem[] = [
   },
   {
     icon: <People />,
-    label: "Subjects",
+    label: "My Lectures",
+    path: "/portal/faculty/lectures",
+    roles: ["faculty"],
+  },
+  {
+    icon: <People />,
+    label: "My Subjects",
     path: "/portal/faculty/subjects",
     roles: ["faculty"],
   },

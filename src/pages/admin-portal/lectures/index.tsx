@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import DataTable, { Column } from "components/DataTable";
 import {
-  useGetAllLecturesQuery,
+  useGetLecturesQuery,
   useAddLectureMutation,
   useUpdateLectureMutation,
   useDeleteLectureMutation,
@@ -48,7 +48,7 @@ export default function Lectures() {
   const [upsertType, setUpsertType] = useState<Upsert | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const { data, refetch } = useGetAllLecturesQuery(filter);
+  const { data, refetch } = useGetLecturesQuery(filter);
 
   const [addLecture] = useAddLectureMutation();
   const [updateLecture] = useUpdateLectureMutation();
