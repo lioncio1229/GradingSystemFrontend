@@ -24,6 +24,9 @@ import {
   SupervisorAccount,
   Subject,
   Groups,
+  Grade,
+  LocalLibrary,
+  School,
 } from "@mui/icons-material";
 import Logo from "assets/logo.png";
 import { useLocation } from "react-router-dom";
@@ -51,7 +54,7 @@ const mainList: ListItem[] = [
     roles: ["admin"],
   },
   {
-    icon: <People />,
+    icon: <School />,
     label: "Students",
     path: "/portal/admin/students",
     roles: ["admin"],
@@ -69,31 +72,31 @@ const mainList: ListItem[] = [
     roles: ["admin"],
   },
   {
-    icon: <People />,
-    label: "Student Grades",
-    path: "/portal/faculty",
-    roles: ["faculty"],
-  },
-  {
-    icon: <People />,
-    label: "My Lectures",
-    path: "/portal/faculty/lectures",
-    roles: ["faculty"],
-  },
-  {
-    icon: <People />,
-    label: "My Subjects",
-    path: "/portal/faculty/subjects",
-    roles: ["faculty"],
+    icon: <Groups />,
+    label: "Manage Users",
+    path: "/portal/admin/users",
+    roles: ["admin"],
   },
 ];
 
 const otherList: ListItem[] = [
   {
-    icon: <Groups />,
-    label: "Manage Users",
-    path: "/portal/admin/users",
-    roles: ["admin"],
+    icon: <Grade />,
+    label: "Student Grades",
+    path: "/portal/faculty",
+    roles: ["faculty"],
+  },
+  {
+    icon: <LocalLibrary />,
+    label: "My Lectures",
+    path: "/portal/faculty/lectures",
+    roles: ["faculty"],
+  },
+  {
+    icon: <Subject />,
+    label: "My Subjects",
+    path: "/portal/faculty/subjects",
+    roles: ["faculty"],
   },
 ];
 
@@ -282,7 +285,10 @@ export default function AdministrationLayout() {
               <ListItemText primary={item.label} />
             </ListItemButton>
           ))}
-          <Divider sx={{ my: 1 }} />
+          {
+            mainListFiltered.length > 0 &&
+            <Divider sx={{ my: 1 }} />
+          }
           {otherListFiltered.map((item) => (
             <ListItemButton
               onClick={() => handleItemClick(item)}

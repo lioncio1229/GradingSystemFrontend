@@ -41,6 +41,7 @@ export default function FacultyLectures() {
 
   useEffect(() => {
     refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
