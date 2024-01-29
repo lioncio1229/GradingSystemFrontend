@@ -6,10 +6,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface InitialState {
     subjects: Item[],
+    rawSubjects: Subject[],
 }
 
 const initialState : InitialState = {
     subjects: [],
+    rawSubjects: [],
 }
 
 export const facultyPortalSlice = createSlice({
@@ -24,12 +26,16 @@ export const facultyPortalSlice = createSlice({
                 displayData: () => `${item.strand.code}, ${item.yearLevel.name}, ${item.semester.name}`
             }))
         },
+        setSubjectsRaw: (state, action: PayloadAction<Subject[]>) => {
+            state.rawSubjects = action.payload;
+        }
     }
 });
 
 const selectAdminPortal = (state : RootState) => state.facultyPortal;
 
 export const subjectsSelector = createSelector(selectAdminPortal, state => state.subjects);
+export const rawSubjectSelector = createSelector(selectAdminPortal, state => state.rawSubjects);
 
-export const { setSubjects } = facultyPortalSlice.actions;
+export const { setSubjects, setSubjectsRaw } = facultyPortalSlice.actions;
 export default facultyPortalSlice.reducer;

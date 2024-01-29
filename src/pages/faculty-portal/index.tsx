@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useGetSubjectsByFacultyMutation } from "services/subjectServices";
 import useUserInfo from "hooks/useUserInfo";
-import { setSubjects } from "./slice";
+import { setSubjects, setSubjectsRaw } from "./slice";
 
 export default function FacultyPortal()
 {
@@ -16,6 +16,7 @@ export default function FacultyPortal()
 
         getSubjects({facultyId: userData.id}).unwrap().then(resp => {
             dispatch(setSubjects(resp));
+            dispatch(setSubjectsRaw(resp));
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData.id]);

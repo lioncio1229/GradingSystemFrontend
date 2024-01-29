@@ -70,8 +70,14 @@ const mainList: ListItem[] = [
   },
   {
     icon: <People />,
-    label: "Grades",
+    label: "Student Grades",
     path: "/portal/faculty",
+    roles: ["faculty"],
+  },
+  {
+    icon: <People />,
+    label: "Subjects",
+    path: "/portal/faculty/subjects",
     roles: ["faculty"],
   },
 ];
@@ -189,7 +195,7 @@ export default function AdministrationLayout() {
     if (item !== undefined) setSelectedItem(item);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [location.pathname, mainListFiltered, otherListFiltered]);
 
   return (
     <Box sx={{ display: "flex" }}>

@@ -19,7 +19,7 @@ export interface Column<Row> {
 
 interface DataTableProps<TRows extends Row, TColumn extends Column<TRows>> {
     columns: TColumn[],
-    rows: TRows[],
+    rows?: TRows[],
     // withPagination: boolean,
     // pageIndex: number,
     // rowsPerPage: number,
