@@ -6,7 +6,7 @@ import useUserInfo from "hooks/useUserInfo";
 
 export default function FacultyLectures() {
   const { id } = useUserInfo();
-  const { data } = useGetAllLecturesQuery(null);
+  const { data, refetch } = useGetAllLecturesQuery(null);
   const [filteredLectures, setFilteredLectures] = useState<Lecture[]>();
 
   const columns: Column<Lecture>[] = [
@@ -38,6 +38,10 @@ export default function FacultyLectures() {
       setFilteredLectures(lectures);
     }
   }, [data, id]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>
