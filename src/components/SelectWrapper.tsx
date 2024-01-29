@@ -4,12 +4,15 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Typography,
 } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 export type Item = {
   key: string;
   value: string;
   label: string;
+  displayData?: () => string;
 };
 
 export type SelectWrapperProps = {
@@ -17,8 +20,8 @@ export type SelectWrapperProps = {
   value: string;
   label: string;
   name?: string;
-  fullWidth?: boolean,
-  disabled?: boolean,
+  fullWidth?: boolean;
+  disabled?: boolean;
   onChange?: (event: SelectChangeEvent) => void;
 };
 
@@ -32,7 +35,7 @@ export default function SelectWrapper({
   disabled,
 }: SelectWrapperProps): JSX.Element {
   return (
-    <FormControl fullWidth={fullWidth} sx={{minWidth: 300}}>
+    <FormControl fullWidth={fullWidth} sx={{ minWidth: 300 }}>
       <InputLabel id="select">{label}</InputLabel>
       <Select
         labelId="select"
@@ -44,7 +47,20 @@ export default function SelectWrapper({
         disabled={disabled}
       >
         {items.map((item) => (
-          <MenuItem key={item.key} value={item.value}>{item.label}</MenuItem>
+          <MenuItem key={item.key} value={item.value}>
+            <span
+              style={{
+                paddingRight: item.displayData !== undefined ? "10px" : "0",
+              }}
+            >
+              {item.label}
+            </span>
+            {item.displayData !== undefined && (
+              <Typography fontSize={11} color={grey[700]}>
+                {item.displayData()}
+              </Typography>
+            )}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

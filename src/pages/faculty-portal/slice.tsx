@@ -21,6 +21,7 @@ export const facultyPortalSlice = createSlice({
                 key: item.id,
                 value: item.id,
                 label: item.name,
+                displayData: () => `${item.strand.code}, ${item.yearLevel.name}, ${item.semester.name}`
             }))
         },
     }
