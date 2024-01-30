@@ -24,6 +24,7 @@ export default function MainPage() {
           minWidth: 400,
           fontSize: 24
         }}
+        onClick={() => navigate("/student/signin")}
       >
         Student
       </Button>

@@ -8,14 +8,16 @@ import {
   Typography,
   IconButton,
   Container,
+  Toolbar,
 } from "@mui/material";
 import { LockOutlined, ArrowBack } from "@mui/icons-material";
 import { useLoginMutation } from "services/adminAuthServices";
 import { LoginModel } from "services/types";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import { orange } from "@mui/material/colors";
 
-export default function AdminSignin() {
+export default function StudentSignin() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const [isButtonLoading, setButtonLoading] = useState(false);
@@ -35,21 +37,21 @@ export default function AdminSignin() {
     const data = new FormData(event.currentTarget as HTMLFormElement);
 
     const model: LoginModel = {
-      username: data.get("email") ?? "",
-      password: data.get("password") ?? "",
+      username: data.get("lrn") ?? "",
+      password: data.get("fullname") ?? "",
     };
 
-    setButtonLoading(true);
-    login(model)
-      .unwrap()
-      .then((resp) => {
-        localStorage.setItem("token", resp.token);
-        setButtonLoading(false);
-          navigate("/portal");
-      })
-      .catch((err) => {
-        setButtonLoading(false);
-      });
+    // setButtonLoading(true);
+    // login(model)
+    //   .unwrap()
+    //   .then((resp) => {
+    //     localStorage.setItem("token", resp.token);
+    //     setButtonLoading(false);
+    //       navigate("/portal");
+    //   })
+    //   .catch((err) => {
+    //     setButtonLoading(false);
+    //   });
   };
 
   const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +79,11 @@ export default function AdminSignin() {
 
   return (
     <Container maxWidth="sm">
+      <Toolbar disableGutters>
+        <IconButton onClick={() => navigate("/")}>
+          <ArrowBack />
+        </IconButton>
+      </Toolbar>
       <Box
         sx={{
           display: "flex",
@@ -86,33 +93,16 @@ export default function AdminSignin() {
           position: "relative",
         }}
       >
-        <IconButton
-          onClick={() => navigate("/")}
-          sx={{
-            position: "absolute",
-            left: 0,
-            top: 30,
-          }}
-        >
-          <ArrowBack />
-        </IconButton>
-
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="lrn"
+                label="LRN"
+                name="lrn"
+                autoComplete="lrn"
                 onChange={handleEmailInputChange}
               />
             </Grid>
@@ -120,11 +110,9 @@ export default function AdminSignin() {
               <TextField
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
+                name="fullname"
+                label="Full Name"
+                id="fullname"
                 onChange={handlePasswordInputChange}
               />
             </Grid>
@@ -138,12 +126,13 @@ export default function AdminSignin() {
             loading={isButtonLoading}
             size="large"
           >
-            Login
+            Submit
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/admin/signup" variant="body2">
-                Don&apos;t have an account? Signup
+                <Typography variant="subtitle2" color="primary" component="span">If new student, please click</Typography>
+              <Link href="/admin/signup" variant="body2" sx={{pl: 1}} color={orange[800]}>
+                 here
               </Link>
             </Grid>
           </Grid>

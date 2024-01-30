@@ -12,9 +12,9 @@ export default function AuthLayout() {
             }}>
                 <Stack flexDirection="row" alignItems="center">
                     <Box component="img" src={Logo} sx={{width: 100, height: "auto"}} />
-                    <Typography variant="h1" fontSize={36}>PHILTECH</Typography>
+                    <Typography variant="h1" fontSize={42} color="primary">PHILTECH</Typography>
                 </Stack>
-                <Typography>Balibago Commercial Complex, GS-B, Brgy Balibago, Sta Rosa, Laguna</Typography>
+                <Typography sx={{color: "primary.dark"}}>Balibago Commercial Complex, GS-B, Brgy Balibago, Sta Rosa, Laguna</Typography>
             </Stack>
             <Outlet />
         </>

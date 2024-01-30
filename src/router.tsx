@@ -14,6 +14,8 @@ import FacultyPortal from "pages/faculty-portal";
 import Grades from "pages/faculty-portal/grades";
 import FacultySubjects from "pages/faculty-portal/faculty-subjects";
 import FacultyLectures from "pages/faculty-portal/faculty-lectures";
+import StudentSignin from "pages/student-auth/StudentSignin";
+import StudentSignup from "pages/student-auth/StudentSignup";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +33,15 @@ const router = createBrowserRouter([
             {
                 path: "/admin/signin",
                 element: <AdminSignin />
-            }
+            },
+            {
+                path: "/student/signin",
+                element: <StudentSignin />
+            },
+            {
+                path: "/student/signup",
+                element: <StudentSignup />
+            },
         ],
     },
     {
