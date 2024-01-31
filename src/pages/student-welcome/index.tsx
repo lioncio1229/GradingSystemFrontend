@@ -1,9 +1,15 @@
 import useUserInfo from "hooks/useUserInfo";
 import { Box, Container, Typography, Stack, Button } from "@mui/material";
 import { lightGreen, blue } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 export default function Welcome() {
+  const navigate = useNavigate();
   const { firstName, lastName } = useUserInfo();
+
+  const handleProceedClick = () => {
+    navigate("/student-portal");
+  };
 
   return (
     <Box mt={2}>
@@ -12,7 +18,7 @@ export default function Welcome() {
           <Typography variant="h2" color={lightGreen[500]}>
             Successful!
           </Typography>
-          <Button variant="outlined" size="large">
+          <Button variant="outlined" size="large" onClick={handleProceedClick}>
             <Typography fontWeight="600" color={blue[800]}>
               {"Proceed >>"}
             </Typography>
@@ -26,7 +32,10 @@ export default function Welcome() {
           >
             WELCOME {`${lastName} ${firstName}`} to PHILTECH ENROLLMENT SYSTEM
           </Typography>
-          <Typography variant="subtitle2" color="primary">{`Current SY: 2023 / Current Semester:1`}</Typography>
+          <Typography
+            variant="subtitle2"
+            color="primary"
+          >{`Current SY: 2023 / Current Semester:1`}</Typography>
         </Stack>
         <Stack sx={{ mt: 4 }}>
           <Typography color="primary" textAlign="center" variant="caption">

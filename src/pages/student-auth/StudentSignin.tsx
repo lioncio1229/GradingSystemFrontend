@@ -46,7 +46,7 @@ export default function StudentSignin() {
       .then((resp) => {
         localStorage.setItem("token", resp.token);
         setButtonLoading(false);
-        navigate("/student-portal");
+        navigate("/student-portal/welcome");
       })
       .catch((err) => {
         setButtonLoading(false);

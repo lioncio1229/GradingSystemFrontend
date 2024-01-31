@@ -1,9 +1,19 @@
 import { useState } from "react";
-import { Box, AppBar, Toolbar, Button, Container } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Button,
+  Container,
+  IconButton,
+  Stack,
+} from "@mui/material";
 import ReportCard from "./RepordCard";
 import SubjectsEnrolled from "./SubjectsEnrolled";
 import StudentLectures from "./StudentLectures";
 import Account from "./Account";
+import MissionVission from "./MissionVission";
+import { Home } from "@mui/icons-material";
 
 interface Menu {
   label: string;
@@ -17,7 +27,7 @@ const menus: Menu[] = [
   },
   {
     label: "Lectures",
-    component: <StudentLectures />
+    component: <StudentLectures />,
   },
   {
     label: "Subjects",
@@ -37,27 +47,35 @@ export default function StudentPortal() {
       <AppBar position="static" color="transparent" elevation={1}>
         <Toolbar
           sx={{
-            justifyContent: "flex-end",
+            justifyContent: selectedMenu ? "space-between" : "flex-end",
           }}
         >
-          {menus.map((menu) => (
-            <Button
-              variant={
-                selectedMenu?.label === menu.label ? "contained" : "text"
-              }
-              sx={{ ml: 1 }}
-              onClick={() => handleMenuChange(menu)}
-            >
-              {menu.label}
-            </Button>
-          ))}
-          <Box ml={2}>
-            <Account />
-          </Box>
+          {
+            selectedMenu &&
+            <IconButton onClick={() => setSelectedMenu(undefined)}>
+              <Home fontSize="large" />
+            </IconButton>
+          }
+          <Stack flexDirection="row">
+            {menus.map((menu) => (
+              <Button
+                variant={
+                  selectedMenu?.label === menu.label ? "contained" : "text"
+                }
+                sx={{ ml: 1 }}
+                onClick={() => handleMenuChange(menu)}
+              >
+                {menu.label}
+              </Button>
+            ))}
+            <Box ml={2}>
+              <Account />
+            </Box>
+          </Stack>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="xl" sx={{p: 3}}>
-        {selectedMenu && selectedMenu.component}
+      <Container maxWidth="xl" sx={{ p: 3 }}>
+        {selectedMenu ? selectedMenu.component : <MissionVission />}
       </Container>
     </Box>
   );

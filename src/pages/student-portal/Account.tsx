@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Person, Logout } from "@mui/icons-material";
 import useUserInfo from "hooks/useUserInfo";
-import { useLogoutMutation } from "services/adminAuthServices";
+import { useLogoutStudentMutation } from "services/studentAuthServices";
 
 interface Setting {
   key: string,
@@ -34,7 +34,7 @@ export default function Account() {
   const { firstName, lastName } = useUserInfo();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const [logout] = useLogoutMutation();
+  const [logout] = useLogoutStudentMutation();
 
   const fullName = `${firstName} ${lastName}`;
 
