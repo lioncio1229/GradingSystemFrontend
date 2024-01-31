@@ -1,26 +1,22 @@
 import { useState, useEffect } from "react";
 import DataTable, { Column } from "components/DataTable";
-import { Student, Subject } from "services/types";
-import useUserInfo from "hooks/useUserInfo";
+import { Subject } from "services/types";
 import { useGetAllSubjectsTriggerMutation } from "services/subjectServices";
-import { useGetStudentQuery } from "services/studentServices";
+import { useSelector } from "react-redux";
+import { studentSelector } from "./slice";
 
 export default function SubjectsEnrolled() {
-  const { id } = useUserInfo();
-  const { data: student } = useGetStudentQuery({
-    studentId: id === "" ? "0" : id,
-  });
+  const student = useSelector(studentSelector);
   const [getAllSubjects] = useGetAllSubjectsTriggerMutation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     if (!student) return;
 
-    const _student = student as Student;
     getAllSubjects({
-      semester: _student.semester.key,
-      strand: _student.strand.code,
-      yearLevel: _student.yearLevel.key,
+      semester: student.semester.key,
+      strand: student.strand.code,
+      yearLevel: student.yearLevel.key,
     })
       .unwrap()
       .then((resp) => {

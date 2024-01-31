@@ -5,7 +5,9 @@ import {
   TextField,
   Stack,
   SelectChangeEvent,
-  Button,
+  Grid,
+  Link,
+  Typography, 
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import SelectWrapper from "components/SelectWrapper";
@@ -25,6 +27,7 @@ import DatePickerWrapper from "layout/DatePickerWrapper";
 import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useRegisterStudentMutation } from "services/studentAuthServices";
+import { orange } from "@mui/material/colors";
 
 const StudentTypes: Item[] = [
   {
@@ -72,6 +75,7 @@ const Gender: Item[] = [
 ];
 
 export default function StudentSignup() {
+  const navigate = useNavigate();
   const { data: strandsData = [] } = useGetStrandsQuery(null);
   const { data: semesterData = [] } = useGetSemestersQuery(null);
   const { data: yearLevelData = [] } = useGetYearLevelsQuery(null);
@@ -156,7 +160,7 @@ export default function StudentSignup() {
   };
 
   const canSubmit = (): boolean => {
-    const notRequired = ["id", "sufix", "facebookUrl", "mobileNumber"];
+    const notRequired = ["id", "sufix", "middleName", "facebookUrl", "mobileNumber"];
 
     return !Object.entries(inputs).some(
       ([key, value]) => !notRequired.includes(key) && value === ""
@@ -170,6 +174,7 @@ export default function StudentSignup() {
         .unwrap()
         .then((resp) => {
           localStorage.setItem("token", resp.token);
+          navigate("/student-portal/welcome")
           setButtonLoading(false);
         })
         .catch((e) => {
@@ -196,7 +201,6 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.middleName}
             onChange={handleTextChange}
-            required
           />
           <TextField
             name="lastName"
@@ -319,6 +323,14 @@ export default function StudentSignup() {
             Submit
           </LoadingButton>
         </Stack>
+        <Grid container justifyContent="flex-end">
+            <Grid item>
+                <Typography variant="subtitle2" color="primary" component="span">Already registered, please click</Typography>
+              <Link href="/student/signin" variant="body2" sx={{pl: 1}} color={orange[800]}>
+                 here
+              </Link>
+            </Grid>
+          </Grid>
       </Container>
     </Box>
   );

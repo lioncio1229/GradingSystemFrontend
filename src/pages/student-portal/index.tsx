@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   AppBar,
@@ -14,6 +14,11 @@ import StudentLectures from "./StudentLectures";
 import Account from "./Account";
 import MissionVission from "./MissionVission";
 import { Home } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import useUserInfo from "hooks/useUserInfo";
+import { useGetStudentQuery } from "services/studentServices";
+import { setStudent } from "./slice";
+import { Student } from "services/types";
 
 interface Menu {
   label: string;
@@ -36,11 +41,26 @@ const menus: Menu[] = [
 ];
 
 export default function StudentPortal() {
+  const dispatch = useDispatch();
   const [selectedMenu, setSelectedMenu] = useState<Menu>();
+
+  const { id } = useUserInfo();
+  const { data: student } = useGetStudentQuery({
+    studentId: id === "" ? "0" : id,
+  });
 
   const handleMenuChange = (menu: Menu) => {
     setSelectedMenu(menu);
   };
+
+  useEffect(() => {
+    if (!student) return;
+
+    const _student = student as Student;
+    dispatch(setStudent(_student));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [student]);
 
   return (
     <Box>
@@ -75,6 +95,7 @@ export default function StudentPortal() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="xl" sx={{ p: 3 }}>
+
         {selectedMenu ? selectedMenu.component : <MissionVission />}
       </Container>
     </Box>

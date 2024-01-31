@@ -4,6 +4,7 @@ import globalReducer from "./globalSlice";
 import adminReducer from "pages/admin-portal/slice";
 import { setErrorOpen } from "./globalSlice";
 import facultyReducer from "pages/faculty-portal/slice";
+import studentReducer from "pages/student-portal/slice";
 
 const errorMiddleware = (api) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
@@ -35,6 +36,7 @@ export const store = configureStore({
     global: globalReducer,
     adminPortal: adminReducer,
     facultyPortal: facultyReducer,
+    studentInfo: studentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
