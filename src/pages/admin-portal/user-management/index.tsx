@@ -13,6 +13,7 @@ import {
   Toolbar,
   Button,
   Typography,
+  SelectChangeEvent,
 } from "@mui/material";
 import {
   User,
@@ -23,11 +24,30 @@ import { Add, Edit, Delete } from "@mui/icons-material";
 import CustomModal from "components/CustomModal";
 import DeleteModal from "components/DeleteModal";
 import { useSnackbar } from "notistack";
+import SelectWrapper, { Item } from "components/SelectWrapper";
 
 enum Upsert {
   Add,
   Update,
 }
+
+export const roleType: Item[] = [
+  {
+    key: "admin",
+    value: "admin",
+    label: "Admin",
+  },
+  {
+    key: "faculty",
+    value: "faculty",
+    label: "Faculty",
+  },
+  {
+    key: "adminFaculty",
+    value: "admin,faculty",
+    label: "Admin and Faculty",
+  },
+];
 
 export default function ManageUsers() {
   const [targetTeacher, setTargetTeacher] =
@@ -133,6 +153,13 @@ export default function ManageUsers() {
     setOpenDeleteModal(true);
   };
 
+  const handleRoleChange = (event: SelectChangeEvent) => {
+    setTargetTeacher({
+      ...targetTeacher,
+      [event.target.name]: event.target.value.split(","),
+    } as UserUpsertRequest);
+  };
+
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTargetTeacher({
       ...targetTeacher,
@@ -222,6 +249,13 @@ export default function ManageUsers() {
               fullWidth
               value={targetTeacher.lastName}
               onChange={handleTextChange}
+            />
+            <SelectWrapper
+              name="roles"
+              items={roleType}
+              label="Faculty"
+              onChange={handleRoleChange}
+              value={targetTeacher.roles.join(",")}
             />
           </Stack>
         )}
