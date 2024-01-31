@@ -12,6 +12,10 @@ const lectureManagementApi = emptySplitApi.injectEndpoints({
       query: (searchFilter: SearchFilter) =>
         `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
+    getLecturesTrigger: builder.mutation({
+      query: (searchFilter: SearchFilter) =>
+        `/api/v1/lectures?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
+    }),
     addLecture: builder.mutation({
       query: (model: LectureUpsertRequest) => ({
         url: `/api/v1/lectures`,
@@ -38,6 +42,7 @@ const lectureManagementApi = emptySplitApi.injectEndpoints({
 export const {
   useGetAllLecturesQuery,
   useGetLecturesQuery,
+  useGetLecturesTriggerMutation,
   useAddLectureMutation,
   useUpdateLectureMutation,
   useDeleteLectureMutation,

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, AppBar, Toolbar, Button, Container } from "@mui/material";
 import ReportCard from "./RepordCard";
 import SubjectsEnrolled from "./SubjectsEnrolled";
+import StudentLectures from "./StudentLectures";
 import Account from "./Account";
 
 interface Menu {
@@ -11,11 +12,15 @@ interface Menu {
 
 const menus: Menu[] = [
   {
-    label: "Report Card (Online)",
+    label: "Report Card",
     component: <ReportCard />,
   },
   {
-    label: "Subjects(s) Enrolled/Assessed",
+    label: "Lectures",
+    component: <StudentLectures />
+  },
+  {
+    label: "Subjects",
     component: <SubjectsEnrolled />,
   },
 ];
@@ -51,7 +56,7 @@ export default function StudentPortal() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{p: 3}}>
         {selectedMenu && selectedMenu.component}
       </Container>
     </Box>
