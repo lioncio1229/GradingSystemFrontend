@@ -7,6 +7,7 @@ import {
   Container,
   IconButton,
   Stack,
+  Typography,
 } from "@mui/material";
 import ReportCard from "./RepordCard";
 import SubjectsEnrolled from "./SubjectsEnrolled";
@@ -72,18 +73,34 @@ export default function StudentPortal() {
         >
           {
             selectedMenu &&
-            <IconButton onClick={() => setSelectedMenu(undefined)}>
-              <Home fontSize="large" />
-            </IconButton>
+            <>
+              <IconButton onClick={() => setSelectedMenu(undefined)}>
+                <Home fontSize="large" />
+              </IconButton>
+              <Stack flexDirection="row" alignItems="center" gap={2}>
+                <Typography variant="caption" color="primary" lineHeight={2}>
+                  {`Name: ${student?.firstName } ${student?.lastName}`}
+                </Typography>
+                <Typography variant="caption" color="primary" lineHeight={2}>
+                  {`Strand: ${student?.strand.code}`}
+                </Typography>
+                <Typography variant="caption" color="primary" lineHeight={2}>
+                  {`Year Level: ${student?.yearLevel.name}`}
+                </Typography>
+                <Typography variant="caption" color="primary" lineHeight={2}>
+                  {`Semester: ${student?.semester.name}`}
+                </Typography>
+              </Stack>
+            </>
           }
-          <Stack flexDirection="row">
+          <Stack flexDirection="row" alignItems="center" gap={2}>
             {menus.map((menu) => (
               <Button
                 variant={
                   selectedMenu?.label === menu.label ? "contained" : "text"
                 }
-                sx={{ ml: 1 }}
                 onClick={() => handleMenuChange(menu)}
+                sx={{fontWeight: "600"}}
               >
                 {menu.label}
               </Button>
