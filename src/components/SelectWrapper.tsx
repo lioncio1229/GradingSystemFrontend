@@ -16,8 +16,8 @@ export type Item = {
 };
 
 export type SelectWrapperProps = {
-  items: Item[];
-  value: string;
+  items?: Item[];
+  value?: string;
   label: string;
   name?: string;
   fullWidth?: boolean;
@@ -27,7 +27,7 @@ export type SelectWrapperProps = {
 
 export default function SelectWrapper({
   items = [],
-  value,
+  value = "",
   label,
   name,
   onChange,

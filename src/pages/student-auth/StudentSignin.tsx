@@ -131,7 +131,7 @@ export default function StudentSignin() {
           <Grid container justifyContent="flex-end">
             <Grid item>
                 <Typography variant="subtitle2" color="primary" component="span">If new student, please click</Typography>
-              <Link href="/admin/signup" variant="body2" sx={{pl: 1}} color={orange[800]}>
+              <Link href="/student/signup" variant="body2" sx={{pl: 1}} color={orange[800]}>
                  here
               </Link>
             </Grid>
