@@ -15,11 +15,13 @@ import { StudentLoginModel } from "services/types";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { orange } from "@mui/material/colors";
+import { useSnackbar } from "notistack";
 
 export default function StudentSignin() {
   const [login] = useLoginStudentMutation();
   const navigate = useNavigate();
   const [isButtonLoading, setButtonLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [errorState, setErrorState] = useState({
     usernameHasError: true,
@@ -41,19 +43,22 @@ export default function StudentSignin() {
     };
 
     setButtonLoading(true);
+    
     login(model)
       .unwrap()
       .then((resp) => {
         localStorage.setItem("token", resp.token);
         setButtonLoading(false);
         navigate("/student-portal/welcome");
+        enqueueSnackbar("Login Success");
       })
       .catch((err) => {
         setButtonLoading(false);
+        enqueueSnackbar(err.message);
       });
   };
 
-  const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLRNInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const email = value.trim();
     let hasError = false;
@@ -65,7 +70,7 @@ export default function StudentSignin() {
     setErrorState({ ...errorState, usernameHasError: hasError });
   };
 
-  const handlePasswordInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFullnameInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value: password } = e.target;
     let hasError = false;
 
@@ -102,7 +107,7 @@ export default function StudentSignin() {
                 label="LRN"
                 name="lrn"
                 autoComplete="lrn"
-                onChange={handleEmailInputChange}
+                onChange={handleLRNInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,7 +117,7 @@ export default function StudentSignin() {
                 name="fullname"
                 label="Full Name"
                 id="fullname"
-                onChange={handlePasswordInputChange}
+                onChange={handleFullnameInputChange}
               />
             </Grid>
           </Grid>

@@ -18,6 +18,7 @@ import StudentSignin from "pages/student-auth/StudentSignin";
 import StudentSignup from "pages/student-auth/StudentSignup";
 import StudentPortal from "pages/student-portal";
 import Welcome from "pages/student-welcome";
+import StudentRegistrationLayout from "layout/StudentRegistrationLayout";
 
 const router = createBrowserRouter([
     {
@@ -40,11 +41,17 @@ const router = createBrowserRouter([
                 path: "/student/signin",
                 element: <StudentSignin />
             },
+        ],
+    },
+    {
+        path: "/student/signup",
+        element: <StudentRegistrationLayout />,
+        children: [
             {
                 path: "/student/signup",
                 element: <StudentSignup />
             },
-        ],
+        ]
     },
     {
         path: "/portal",
