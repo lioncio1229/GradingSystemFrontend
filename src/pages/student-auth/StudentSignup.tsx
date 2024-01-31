@@ -155,24 +155,28 @@ export default function StudentSignup() {
       <Container maxWidth="sm">
         <Stack gap={2}>
           <TextField
+            name="firstName"
             label="First Name"
             fullWidth
             value={inputs.firstName}
             onChange={handleTextChange}
           />
           <TextField
+            name="middleName"
             label="Middle Name"
             fullWidth
             value={inputs.middleName}
             onChange={handleTextChange}
           />
           <TextField
+            name="lastName"
             label="Last Name"
             fullWidth
             value={inputs.lastName}
             onChange={handleTextChange}
           />
           <TextField
+            name="sufix"
             label="Suffix Name"
             fullWidth
             value={inputs.sufix}
@@ -230,24 +234,29 @@ export default function StudentSignup() {
             onChange={handleBirthdateChange}
           />
           <TextField
+            name="nationality"
             label="Nationality"
             fullWidth
             value={inputs.nationality}
             onChange={handleTextChange}
           />
           <TextField
+            name="mobileNumber"
             label="Mobile Number"
             fullWidth
             value={inputs.mobileNumber}
             onChange={handleTextChange}
           />
           <TextField
+            name="facebookUrl"
             label="Facebook URL"
             fullWidth
             value={inputs.facebookUrl}
             onChange={handleTextChange}
           />
           <TextField
+            type="email"
+            name="email"
             label="Email Address"
             fullWidth
             value={inputs.email}
