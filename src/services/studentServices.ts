@@ -9,6 +9,10 @@ const studentManagementApi = emptySplitApi.injectEndpoints({
       query: (searchFilter: SearchFilter) =>
         `/api/v1/students?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
+    getStudent: builder.query({
+      query: (model: { studentId: string }) =>
+        `/api/v1/students/${model.studentId}`,
+    }),
     addStudent: builder.mutation({
       query: (model: StudentUpsertRequest) => ({
         url: `/api/v1/students`,
@@ -34,6 +38,7 @@ const studentManagementApi = emptySplitApi.injectEndpoints({
 
 export const {
   useGetAllStudentsQuery,
+  useGetStudentQuery,
   useAddStudentMutation,
   useUpdateStudentMutation,
   useDeleteStudentMutation,

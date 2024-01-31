@@ -10,6 +10,10 @@ export default function ReportCard(){
 
     const columns: Column<Grade>[] = [
         {
+          label: "No.",
+          display: (_, i) => i + 1,
+        },
+        {
           label: "Code",
           display: (grade) => grade.subjectCode,
         },

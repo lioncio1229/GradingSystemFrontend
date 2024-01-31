@@ -14,7 +14,7 @@ export interface Column<Row> {
     align?: "left" | "right" | "center" | "inherit" | "justify" | undefined,
     minWidth?: number,
     label: string,
-    display: (row : Row) => JSX.Element | string,
+    display: (row : Row, rowIndex: number) => JSX.Element | string | number,
 }
 
 interface DataTableProps<TRows extends Row, TColumn extends Column<TRows>> {
@@ -79,7 +79,7 @@ export default function DataTable<TRows extends Row, TColumn extends Column<TRow
                     {columns.map((column, j) => {
                       return (
                         <TableCell key={j} align={column.align}>
-                          {column.display(row)}
+                          {column.display(row, i)}
                         </TableCell>
                       );
                     })}

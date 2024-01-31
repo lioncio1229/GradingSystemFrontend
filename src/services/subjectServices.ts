@@ -9,6 +9,10 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
       query: (searchFilter: SearchFilter) =>
         `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
     }),
+    getAllSubjectsTrigger: builder.mutation({
+      query: (searchFilter: SearchFilter) =>
+        `/api/v1/subjects?Strand=${searchFilter.strand}&YearLevel=${searchFilter.yearLevel}&Semester=${searchFilter.semester}`,
+    }),
     getSubjectsByFaculty: builder.mutation({
       query: (mode: { facultyId: string }) =>
         `api/v1/subjects/faculty?userId=${mode.facultyId}`
@@ -38,6 +42,7 @@ const subjectManagementApi = emptySplitApi.injectEndpoints({
 
 export const {
   useGetAllSubjectsQuery,
+  useGetAllSubjectsTriggerMutation,
   useGetSubjectsByFacultyMutation,
   useAddSubjectMutation,
   useUpdateSubjectMutation,
