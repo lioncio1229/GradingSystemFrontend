@@ -1,6 +1,5 @@
 import React, { useState, useMemo, ChangeEvent } from "react";
 import {
-  Avatar,
   TextField,
   Link,
   Grid,
@@ -10,15 +9,15 @@ import {
   Container,
   Toolbar,
 } from "@mui/material";
-import { LockOutlined, ArrowBack } from "@mui/icons-material";
-import { useLoginMutation } from "services/adminAuthServices";
-import { LoginModel } from "services/types";
+import { ArrowBack } from "@mui/icons-material";
+import { useLoginStudentMutation } from "services/studentAuthServices";
+import { StudentLoginModel } from "services/types";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { orange } from "@mui/material/colors";
 
 export default function StudentSignin() {
-  const [login] = useLoginMutation();
+  const [login] = useLoginStudentMutation();
   const navigate = useNavigate();
   const [isButtonLoading, setButtonLoading] = useState(false);
 
@@ -36,22 +35,22 @@ export default function StudentSignin() {
     event.preventDefault();
     const data = new FormData(event.currentTarget as HTMLFormElement);
 
-    const model: LoginModel = {
-      username: data.get("lrn") ?? "",
-      password: data.get("fullname") ?? "",
+    const model: StudentLoginModel = {
+      lrn: data.get("lrn")?.toString() ?? "",
+      fullName: data.get("fullname")?.toString() ?? "",
     };
 
-    // setButtonLoading(true);
-    // login(model)
-    //   .unwrap()
-    //   .then((resp) => {
-    //     localStorage.setItem("token", resp.token);
-    //     setButtonLoading(false);
-    //       navigate("/portal");
-    //   })
-    //   .catch((err) => {
-    //     setButtonLoading(false);
-    //   });
+    setButtonLoading(true);
+    login(model)
+      .unwrap()
+      .then((resp) => {
+        localStorage.setItem("token", resp.token);
+        setButtonLoading(false);
+        navigate("/student-portal");
+      })
+      .catch((err) => {
+        setButtonLoading(false);
+      });
   };
 
   const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {

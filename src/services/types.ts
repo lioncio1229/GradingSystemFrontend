@@ -150,4 +150,7 @@ export interface Grade {
     average: number;
     remarks: string;
     fullName: string;
+    subjectCode: string;
+    subjectDescription: string;
+    facultyName: string;
 }

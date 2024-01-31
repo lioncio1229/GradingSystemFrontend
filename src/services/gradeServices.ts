@@ -15,10 +15,15 @@ const gradeManagementApi = emptySplitApi.injectEndpoints({
         body: model,
       }),
     }),
+    getGradesByStudent: builder.query({
+      query: (model: { studentId: string }) =>
+        `/api/v1/grades/students/${model.studentId}`,
+    }),
   }),
 });
 
 export const {
   useGetGradesBySubjectQuery,
   useUpdateGradeMutation,
+  useGetGradesByStudentQuery,
 } = gradeManagementApi;
