@@ -16,7 +16,8 @@ import FacultySubjects from "pages/faculty-portal/faculty-subjects";
 import FacultyLectures from "pages/faculty-portal/faculty-lectures";
 import StudentSignin from "pages/student-auth/StudentSignin";
 import StudentSignup from "pages/student-auth/StudentSignup";
-import Welcome from "pages/student-portal/Welcome";
+import StudentPortal from "pages/student-portal";
+import Welcome from "pages/student-welcome";
 
 const router = createBrowserRouter([
     {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
         path: "/student-portal",
         element: <AuthLayout/>,
         children: [
+            {
+                path: "",
+                element: <StudentPortal />
+            },
             {
                 path: "welcome",
                 element: <Welcome />
