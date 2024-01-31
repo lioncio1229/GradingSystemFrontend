@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, AppBar, Toolbar, Button, Container } from "@mui/material";
 import ReportCard from "./RepordCard";
 import SubjectsEnrolled from "./SubjectsEnrolled";
+import Account from "./Account";
 
 interface Menu {
   label: string;
@@ -33,7 +34,6 @@ export default function StudentPortal() {
           sx={{
             justifyContent: "flex-end",
           }}
-          variant="dense"
         >
           {menus.map((menu) => (
             <Button
@@ -46,7 +46,9 @@ export default function StudentPortal() {
               {menu.label}
             </Button>
           ))}
-          <Button sx={{ ml: 1 }}>Logout</Button>
+          <Box ml={2}>
+            <Account />
+          </Box>
         </Toolbar>
       </AppBar>
       <Container maxWidth="xl">
