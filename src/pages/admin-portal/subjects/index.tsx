@@ -34,6 +34,19 @@ enum Upsert {
   Update,
 }
 
+export const SubjectType: Item[] = [
+  {
+    key: "minor",
+    value: "minor",
+    label: "Minor",
+  },
+  {
+    key: "major",
+    value: "major",
+    label: "Major",
+  },
+];
+
 export default function Subjects() {
   const [filter, setFilter] = useState<Filter>({
     semester: "sem1",
@@ -232,13 +245,12 @@ export default function Subjects() {
               value={targetSubject.code}
               onChange={handleTextChange}
             />
-            <TextField
+            <SelectWrapper
               name="type"
-              variant="outlined"
+              items={SubjectType}
               label="Type"
-              fullWidth
+              onChange={handleSelectChange}
               value={targetSubject.type}
-              onChange={handleTextChange}
             />
             <SelectWrapper
               name="userId"

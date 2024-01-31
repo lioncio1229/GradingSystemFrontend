@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { useRegisterStudentMutation } from "services/studentAuthServices";
 import { orange } from "@mui/material/colors";
 
-const StudentTypes: Item[] = [
+export const StudentTypes: Item[] = [
   {
     key: "newStudent",
     value: "newStudent",
@@ -48,7 +48,7 @@ const StudentTypes: Item[] = [
   },
 ];
 
-const StudentStatus: Item[] = [
+export const StudentStatus: Item[] = [
   {
     key: "regular",
     value: "regular",
@@ -61,7 +61,7 @@ const StudentStatus: Item[] = [
   },
 ];
 
-const Gender: Item[] = [
+export const Gender: Item[] = [
   {
     key: "female",
     value: "female",

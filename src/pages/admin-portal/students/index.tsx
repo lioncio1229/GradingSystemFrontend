@@ -23,6 +23,13 @@ import DeleteModal from "components/DeleteModal";
 import { useSnackbar } from "notistack";
 import DatePickerWrapper from "layout/DatePickerWrapper";
 import dayjs, { Dayjs } from "dayjs";
+import SelectWrapper from "components/SelectWrapper";
+
+import {
+  Gender,
+  StudentStatus,
+  StudentTypes,
+} from "pages/student-auth/StudentSignup";
 
 enum Upsert {
   Add,
@@ -267,7 +274,11 @@ export default function Students() {
             />
             <DatePickerWrapper
               label="Birthdate"
-              value={targetStudent.birthdate !== "" ? dayjs(targetStudent.birthdate) : dayjs("1/1/1999")}
+              value={
+                targetStudent.birthdate !== ""
+                  ? dayjs(targetStudent.birthdate)
+                  : dayjs("1/1/1999")
+              }
               onChange={handleBirthdateChange}
             />
             <TextField
@@ -301,30 +312,32 @@ export default function Students() {
               fullWidth
               value={targetStudent.lrn}
               onChange={handleTextChange}
+              required
             />
-            <TextField
-              name="gender"
-              variant="outlined"
-              label="Gender"
-              fullWidth
-              value={targetStudent.gender}
-              onChange={handleTextChange}
-            />
-            <TextField
-              name="status"
-              variant="outlined"
-              label="Status"
-              fullWidth
-              value={targetStudent.status}
-              onChange={handleTextChange}
-            />
-            <TextField
+            <SelectWrapper
               name="studentType"
-              variant="outlined"
               label="Student Type"
-              fullWidth
+              items={StudentTypes}
               value={targetStudent.studentType}
-              onChange={handleTextChange}
+              onChange={handleSelectChange}
+              required
+            />
+            <SelectWrapper
+              name="gender"
+              label="Gender"
+              items={Gender}
+              value={targetStudent.gender}
+              onChange={handleSelectChange}
+              required
+            />
+
+            <SelectWrapper
+              name="status"
+              label="Temporary student status"
+              items={StudentStatus}
+              value={targetStudent.status}
+              onChange={handleSelectChange}
+              required
             />
           </Stack>
         )}

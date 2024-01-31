@@ -120,8 +120,8 @@ export default function Lectures() {
   const handleAddButtonClick = () => {
     const lectureToAdd: LectureUpsertRequest = {
       id: "",
-      from: "",
-      to: "",
+      from: "1:00",
+      to: "2:00",
       lectureDate: "",
       subjectId1: "",
     };
@@ -221,6 +221,7 @@ export default function Lectures() {
               onChange={handleTextChange}
             />
             <TextField
+              type="time"
               name="from"
               variant="outlined"
               label="From"
@@ -229,6 +230,7 @@ export default function Lectures() {
               onChange={handleTextChange}
             />
             <TextField
+              type="time"
               name="to"
               variant="outlined"
               label="To"
