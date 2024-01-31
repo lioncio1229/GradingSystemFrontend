@@ -11,6 +11,11 @@ export interface LoginModel {
     password: FormDataEntryValue,   
 }
 
+export interface StudentLoginModel {
+    lrn: string,
+    fullName: string,
+}
+
 export interface Role {
     id: string,
     name: string,

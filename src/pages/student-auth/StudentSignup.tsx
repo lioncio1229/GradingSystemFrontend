@@ -7,6 +7,7 @@ import {
   SelectChangeEvent,
   Button,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import SelectWrapper from "components/SelectWrapper";
 import {
   useGetStrandsQuery,
@@ -22,6 +23,8 @@ import {
 } from "services/types";
 import DatePickerWrapper from "layout/DatePickerWrapper";
 import dayjs, { Dayjs } from "dayjs";
+import { useNavigate } from "react-router-dom";
+import { useRegisterStudentMutation } from "services/studentAuthServices";
 
 const StudentTypes: Item[] = [
   {
@@ -72,6 +75,8 @@ export default function StudentSignup() {
   const { data: strandsData = [] } = useGetStrandsQuery(null);
   const { data: semesterData = [] } = useGetSemestersQuery(null);
   const { data: yearLevelData = [] } = useGetYearLevelsQuery(null);
+  const [registerStudent] = useRegisterStudentMutation();
+  const [isButtonLoading, setButtonLoading] = useState(false);
 
   const [inputs, setInputs] = useState<StudentUpsertRequest>({
     id: "",
@@ -80,7 +85,7 @@ export default function StudentSignup() {
     lastName: "",
     middleName: "",
     sufix: "",
-    birthdate: "",
+    birthdate: dayjs("1/1/1999").format("MM/DD/YYYY"),
     nationality: "",
     mobileNumber: "",
     facebookUrl: "",
@@ -150,6 +155,29 @@ export default function StudentSignup() {
     } as StudentUpsertRequest);
   };
 
+  const canSubmit = (): boolean => {
+    const notRequired = ["id", "sufix", "facebookUrl", "mobileNumber"];
+
+    return !Object.entries(inputs).some(
+      ([key, value]) => !notRequired.includes(key) && value === ""
+    );
+  };
+
+  const handleSubmit = () => {
+    if (canSubmit()) {
+      setButtonLoading(true);
+      registerStudent(inputs)
+        .unwrap()
+        .then((resp) => {
+          localStorage.setItem("token", resp.token);
+          setButtonLoading(false);
+        })
+        .catch((e) => {
+          setButtonLoading(false);
+        });
+    }
+  };
+
   return (
     <Box mt={4} mb={4}>
       <Container maxWidth="sm">
@@ -160,6 +188,7 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.firstName}
             onChange={handleTextChange}
+            required
           />
           <TextField
             name="middleName"
@@ -167,6 +196,7 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.middleName}
             onChange={handleTextChange}
+            required
           />
           <TextField
             name="lastName"
@@ -174,6 +204,7 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.lastName}
             onChange={handleTextChange}
+            required
           />
           <TextField
             name="sufix"
@@ -182,12 +213,21 @@ export default function StudentSignup() {
             value={inputs.sufix}
             onChange={handleTextChange}
           />
+          <TextField
+            name="lrn"
+            label="LRN"
+            fullWidth
+            value={inputs.lrn}
+            onChange={handleTextChange}
+            required
+          />
           <SelectWrapper
             name="strandCode"
             label="Strand"
             items={strands}
             value={inputs.strandCode}
             onChange={handleInputChange}
+            required
           />
           <SelectWrapper
             name="yearLevelKey"
@@ -195,6 +235,7 @@ export default function StudentSignup() {
             items={yearLevels}
             value={inputs.yearLevelKey}
             onChange={handleInputChange}
+            required
           />
           <SelectWrapper
             name="semesterKey"
@@ -202,6 +243,7 @@ export default function StudentSignup() {
             items={semesters}
             value={inputs.semesterKey}
             onChange={handleInputChange}
+            required
           />
           <SelectWrapper
             name="studentType"
@@ -209,6 +251,7 @@ export default function StudentSignup() {
             items={StudentTypes}
             value={inputs.studentType}
             onChange={handleInputChange}
+            required
           />
           <SelectWrapper
             name="status"
@@ -216,6 +259,7 @@ export default function StudentSignup() {
             items={StudentStatus}
             value={inputs.status}
             onChange={handleInputChange}
+            required
           />
           <SelectWrapper
             name="gender"
@@ -223,6 +267,7 @@ export default function StudentSignup() {
             items={Gender}
             value={inputs.gender}
             onChange={handleInputChange}
+            required
           />
           <DatePickerWrapper
             label="Birthdate"
@@ -239,6 +284,7 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.nationality}
             onChange={handleTextChange}
+            required
           />
           <TextField
             name="mobileNumber"
@@ -261,8 +307,17 @@ export default function StudentSignup() {
             fullWidth
             value={inputs.email}
             onChange={handleTextChange}
+            required
           />
-          <Button variant="contained" size="large">Submit</Button>
+          <LoadingButton
+            variant="contained"
+            size="large"
+            onClick={handleSubmit}
+            disabled={!canSubmit()}
+            loading={isButtonLoading}
+          >
+            Submit
+          </LoadingButton>
         </Stack>
       </Container>
     </Box>

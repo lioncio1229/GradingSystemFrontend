@@ -22,6 +22,7 @@ export type SelectWrapperProps = {
   name?: string;
   fullWidth?: boolean;
   disabled?: boolean;
+  required?: boolean;
   onChange?: (event: SelectChangeEvent) => void;
 };
 
@@ -33,6 +34,7 @@ export default function SelectWrapper({
   onChange,
   fullWidth = true,
   disabled,
+  required,
 }: SelectWrapperProps): JSX.Element {
   return (
     <FormControl fullWidth={fullWidth} sx={{ minWidth: 300 }}>
@@ -45,6 +47,7 @@ export default function SelectWrapper({
         onChange={onChange}
         name={name}
         disabled={disabled}
+        required={required}
       >
         {items.map((item) => (
           <MenuItem key={item.key} value={item.value}>
