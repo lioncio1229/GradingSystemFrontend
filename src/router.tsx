@@ -16,6 +16,7 @@ import FacultySubjects from "pages/faculty-portal/faculty-subjects";
 import FacultyLectures from "pages/faculty-portal/faculty-lectures";
 import StudentSignin from "pages/student-auth/StudentSignin";
 import StudentSignup from "pages/student-auth/StudentSignup";
+import Welcome from "pages/student-portal/Welcome";
 
 const router = createBrowserRouter([
     {
@@ -91,6 +92,16 @@ const router = createBrowserRouter([
                         element: <FacultySubjects />
                     },
                 ]
+            }
+        ]
+    },
+    {
+        path: "/student-portal",
+        element: <AuthLayout/>,
+        children: [
+            {
+                path: "welcome",
+                element: <Welcome />
             }
         ]
     }
