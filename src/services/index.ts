@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const emptySplitApi = createApi({
   reducerPath: "gradingSystemApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:7189",
+    baseUrl: import.meta.env.VITE_DOMAIN,
     prepareHeaders: headers => {
       
       const rawToken = localStorage.getItem("token") || null;
