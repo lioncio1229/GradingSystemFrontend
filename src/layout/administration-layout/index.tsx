@@ -170,6 +170,10 @@ export default function AdministrationLayout() {
   };
 
   useEffect(() => {
+    if (roles.length === 0) return;
+
+    setRoleTitle(roles.join(" and "));
+
     const _mainList = mainList.filter((item) =>
       item.roles
         .map((role) => roles.includes(role))
@@ -185,26 +189,22 @@ export default function AdministrationLayout() {
     );
 
     setOtherListFiltered(_otherList);
-    setRoleTitle(roles.join(" and "));
 
-    if(roles.includes("admin")) {
-      navigate("/portal/admin")
-    }
-    else if(roles.includes("faculty")) {
-      navigate("/portal/faculty");
-    }
-
-  }, [roles]);
-
-  useEffect(() => {
-    const item: ListItem | undefined = [...mainListFiltered, ...otherListFiltered].find(
+    const item: ListItem | undefined = [..._mainList, ..._otherList].find(
       (list) => list.path === location.pathname
     );
 
     if (item !== undefined) setSelectedItem(item);
+    else {
+      if (roles.includes("admin")) {
+        navigate("/portal/admin");
+      } else if (roles.includes("faculty")) {
+        navigate("/portal/faculty");
+      }
+    }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, mainListFiltered, otherListFiltered]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, roles]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -250,7 +250,11 @@ export default function AdministrationLayout() {
           }}
         >
           <Stack alignItems="center">
-            <Typography variant="caption" color="primary" textTransform="capitalize">
+            <Typography
+              variant="caption"
+              color="primary"
+              textTransform="capitalize"
+            >
               {roleTitle}
             </Typography>
             <Stack flexDirection="row" alignItems="center" gap={1}>
@@ -285,10 +289,7 @@ export default function AdministrationLayout() {
               <ListItemText primary={item.label} />
             </ListItemButton>
           ))}
-          {
-            mainListFiltered.length > 0 &&
-            <Divider sx={{ my: 1 }} />
-          }
+          {mainListFiltered.length > 0 && <Divider sx={{ my: 1 }} />}
           {otherListFiltered.map((item) => (
             <ListItemButton
               onClick={() => handleItemClick(item)}
