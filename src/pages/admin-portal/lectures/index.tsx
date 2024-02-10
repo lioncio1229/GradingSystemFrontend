@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import DataTable, { Column } from "components/DataTable";
 import {
   useGetLecturesQuery,
@@ -155,6 +155,8 @@ export default function Lectures() {
   };
 
   const handleFilterChange = (updatedFilter: Filter) => {
+    localStorage.setItem("filter", JSON.stringify(updatedFilter));
+    
     setFilter(updatedFilter);
     refetch();
   };
@@ -199,6 +201,13 @@ export default function Lectures() {
         enqueueSnackbar(resp.message);
       });
   };
+
+  useEffect(() => {
+    const filter = localStorage.getItem("filter");
+    if(filter === null) return;
+
+    setFilter(JSON.parse(filter) as Filter);
+  }, []);
 
   return (
     <>

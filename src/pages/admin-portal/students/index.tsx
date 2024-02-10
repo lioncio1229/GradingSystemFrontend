@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DataTable, { Column } from "components/DataTable";
 import {
   useGetAllStudentsQuery,
@@ -166,6 +166,8 @@ export default function Students() {
   };
 
   const handleFilterChange = (updatedFilter: Filter) => {
+    localStorage.setItem("filter", JSON.stringify(updatedFilter));
+
     setFilter(updatedFilter);
     refetch();
   };
@@ -217,6 +219,13 @@ export default function Students() {
         enqueueSnackbar(resp.message);
       });
   };
+
+  useEffect(() => {
+    const filter = localStorage.getItem("filter");
+    if(filter === null) return;
+
+    setFilter(JSON.parse(filter) as Filter);
+  }, []);
 
   return (
     <>
